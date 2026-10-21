@@ -1,0 +1,28 @@
+Package: rviuer
+Title: R binding to viuer
+Version: 0.1.0
+Authors@R: 
+    person("Yuxi", "Yang", , "15364051195@163.com", role = c("aut", "cre"))
+Description: rviuer draws images, including plots captured straight from R, in the
+    terminal. It uses the iTerm, Kitty or Sixel graphics protocols when the
+    terminal supports them, and falls back to coloured half-blocks otherwise.
+License: MIT + file LICENSE
+Suggests: 
+    ggplot2,
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports: 
+    cli,
+    png,
+    ragg,
+    rlang
+URL: https://exceret.github.io/rviuer/, https://github.com/Exceret/rviuer
+BugReports: https://github.com/Exceret/rviuer/issues
+Depends: 
+    R (>= 4.2)
+Config/rextendr/version: 0.5.0
+SystemRequirements: Cargo (Rust's package manager), rustc >= 1.65.0, xz
+Config/roxygen2/version: 8.1.0

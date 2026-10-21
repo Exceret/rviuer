@@ -1,0 +1,1131 @@
+The binary compiled from the source code of this package contains the following Rust crates:
+
+
+-------------------------------------------------------------
+
+Name:        adler2
+Repository:  https://github.com/oyvindln/adler2
+Authors:     Jonas Schievink, oyvindln
+License:     0BSD OR MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        aligned
+Repository:  https://github.com/rust-embedded-community/aligned
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        aligned-vec
+Repository:  https://github.com/sarah-ek/aligned-vec/
+Authors:     sarah <>
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        ansi_colours
+Repository:  https://github.com/mina86/ansi_colours
+Authors:     Michał Nazarewicz
+License:     LGPL-3.0-or-later
+
+-------------------------------------------------------------
+
+Name:        anyhow
+Repository:  https://github.com/dtolnay/anyhow
+Authors:     David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        arbitrary
+Repository:  https://github.com/rust-fuzz/arbitrary/
+Authors:     The Rust-Fuzz Project Developers, Nick Fitzgerald, Manish Goregaokar, Simonas Kazlauskas, Brian L. Troutwine, Corey Farwell
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        arg_enum_proc_macro
+Repository:  https://github.com/lu-zero/arg_enum_proc_macro
+Authors:     Luca Barbato
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        arrayvec
+Repository:  https://github.com/bluss/arrayvec
+Authors:     bluss
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        as-slice
+Repository:  https://github.com/japaric/as-slice
+Authors:     Jorge Aparicio, Emil Fresk
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        autocfg
+Repository:  https://github.com/cuviper/autocfg
+Authors:     Josh Stone
+License:     Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        av-scenechange
+Repository:  https://github.com/rust-av/av-scenechange
+Authors:     Josh Holmer
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        av1-grain
+Repository:  https://github.com/rust-av/av1-grain
+Authors:     
+License:     BSD-2-Clause
+
+-------------------------------------------------------------
+
+Name:        avif-serialize
+Repository:  https://github.com/kornelski/avif-serialize
+Authors:     Kornel Lesiński
+License:     BSD-3-Clause
+
+-------------------------------------------------------------
+
+Name:        base64
+Repository:  https://github.com/marshallpierce/rust-base64
+Authors:     Marshall Pierce
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        bit_field
+Repository:  https://github.com/phil-opp/rust-bit-field
+Authors:     Philipp Oppermann
+License:     Apache-2.0/MIT
+
+-------------------------------------------------------------
+
+Name:        bitflags
+Repository:  https://github.com/bitflags/bitflags
+Authors:     The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        bitstream-io
+Repository:  https://github.com/tuffy/bitstream-io
+Authors:     Brian Langenberger
+License:     MIT/Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        built
+Repository:  https://github.com/lukaslueg/built
+Authors:     Lukas Lueg
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        bumpalo
+Repository:  https://github.com/fitzgen/bumpalo
+Authors:     Nick Fitzgerald
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        bytemuck
+Repository:  https://github.com/Lokathor/bytemuck
+Authors:     Lokathor
+License:     Zlib OR Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        byteorder-lite
+Repository:  https://github.com/image-rs/byteorder-lite
+Authors:     
+License:     Unlicense OR MIT
+
+-------------------------------------------------------------
+
+Name:        cc
+Repository:  https://github.com/rust-lang/cc-rs
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        cfg-if
+Repository:  https://github.com/rust-lang/cfg-if
+Authors:     Alex Crichton
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        color_quant
+Repository:  https://github.com/image-rs/color_quant.git
+Authors:     nwin
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        console
+Repository:  https://github.com/console-rs/console
+Authors:     Armin Ronacher
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        crc32fast
+Repository:  https://github.com/srijs/rust-crc32fast
+Authors:     Sam Rijs, Alex Crichton
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        crossbeam-deque
+Repository:  https://github.com/crossbeam-rs/crossbeam
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        crossbeam-epoch
+Repository:  https://github.com/crossbeam-rs/crossbeam
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        crossbeam-utils
+Repository:  https://github.com/crossbeam-rs/crossbeam
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        crossterm
+Repository:  https://github.com/crossterm-rs/crossterm
+Authors:     T. Post
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        crossterm_winapi
+Repository:  https://github.com/crossterm-rs/crossterm-winapi
+Authors:     T. Post
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        crunchy
+Repository:  https://github.com/eira-fransham/crunchy
+Authors:     Eira Fransham
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        either
+Repository:  https://github.com/rayon-rs/either
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        encode_unicode
+Repository:  https://github.com/tormol/encode_unicode
+Authors:     Torbjørn Birch Moltu
+License:     Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        equator
+Repository:  https://github.com/sarah-ek/equator/
+Authors:     sarah <>
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        equator-macro
+Repository:  https://github.com/sarah-ek/equator/
+Authors:     sarah <>
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        errno
+Repository:  https://github.com/lambda-fairy/rust-errno
+Authors:     Chris Wong, Dan Gohman
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        exr
+Repository:  https://github.com/johannesvollmer/exrs
+Authors:     johannesvollmer
+License:     BSD-3-Clause
+
+-------------------------------------------------------------
+
+Name:        extendr-api
+Repository:  https://github.com/extendr/extendr
+Authors:     
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        extendr-ffi
+Repository:  https://github.com/extendr/extendr
+Authors:     
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        extendr-macros
+Repository:  https://github.com/extendr/extendr
+Authors:     
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        fastrand
+Repository:  https://github.com/smol-rs/fastrand
+Authors:     Stjepan Glavina
+License:     Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        fax
+Repository:  https://github.com/pdf-rs/fax
+Authors:     Sebastian K
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        fdeflate
+Repository:  https://github.com/image-rs/fdeflate
+Authors:     The image-rs Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        find-msvc-tools
+Repository:  https://github.com/rust-lang/cc-rs
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        flate2
+Repository:  https://github.com/rust-lang/flate2-rs
+Authors:     Alex Crichton, Josh Triplett
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        getrandom
+Repository:  https://github.com/rust-random/getrandom
+Authors:     The Rand Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        getrandom
+Repository:  https://github.com/rust-random/getrandom
+Authors:     The Rand Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        gif
+Repository:  https://github.com/image-rs/image-gif
+Authors:     The image-rs Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        half
+Repository:  https://github.com/VoidStarKat/half-rs
+Authors:     Kathryn Long
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        image
+Repository:  https://github.com/image-rs/image
+Authors:     The image-rs Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        image-webp
+Repository:  https://github.com/image-rs/image-webp
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        imgref
+Repository:  https://github.com/kornelski/imgref
+Authors:     Kornel Lesiński
+License:     CC0-1.0 OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        interpolate_name
+Repository:  https://github.com/lu-zero/interpolate_name
+Authors:     Luca Barbato
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        itertools
+Repository:  https://github.com/rust-itertools/itertools
+Authors:     bluss
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        jobserver
+Repository:  https://github.com/rust-lang/jobserver-rs
+Authors:     Alex Crichton
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        lazy_static
+Repository:  https://github.com/rust-lang-nursery/lazy-static.rs
+Authors:     Marvin Löbel
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        lebe
+Repository:  https://github.com/johannesvollmer/lebe
+Authors:     johannesvollmer
+License:     BSD-3-Clause
+
+-------------------------------------------------------------
+
+Name:        libc
+Repository:  https://github.com/rust-lang/libc
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        libfuzzer-sys
+Repository:  https://github.com/rust-fuzz/libfuzzer
+Authors:     The rust-fuzz Project Developers
+License:     (MIT OR Apache-2.0) AND NCSA
+
+-------------------------------------------------------------
+
+Name:        libm
+Repository:  https://github.com/rust-lang/compiler-builtins
+Authors:     Alex Crichton, Amanieu d'Antras, Jorge Aparicio, Trevor Gross
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        linux-raw-sys
+Repository:  https://github.com/sunfishcode/linux-raw-sys
+Authors:     Dan Gohman
+License:     Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        linux-raw-sys
+Repository:  https://github.com/sunfishcode/linux-raw-sys
+Authors:     Dan Gohman
+License:     Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        lock_api
+Repository:  https://github.com/Amanieu/parking_lot
+Authors:     Amanieu d'Antras
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        log
+Repository:  https://github.com/rust-lang/log
+Authors:     The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        loop9
+Repository:  https://gitlab.com/kornelski/loop9.git
+Authors:     Kornel
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        maybe-rayon
+Repository:  https://github.com/shssoichiro/maybe-rayon
+Authors:     
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        memchr
+Repository:  https://github.com/BurntSushi/memchr
+Authors:     Andrew Gallant, bluss
+License:     Unlicense OR MIT
+
+-------------------------------------------------------------
+
+Name:        miniz_oxide
+Repository:  https://github.com/Frommi/miniz_oxide/tree/master/miniz_oxide
+Authors:     Frommi, oyvindln, Rich Geldreich richgel99@gmail.com
+License:     MIT OR Zlib OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        miniz_oxide
+Repository:  https://github.com/Frommi/miniz_oxide/tree/master/miniz_oxide
+Authors:     Frommi, oyvindln, Rich Geldreich richgel99@gmail.com
+License:     MIT OR Zlib OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        moxcms
+Repository:  https://github.com/awxkee/moxcms.git
+Authors:     Radzivon Bartoshyk
+License:     BSD-3-Clause OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        new_debug_unreachable
+Repository:  https://github.com/mbrubeck/rust-debug-unreachable
+Authors:     Matt Brubeck, Jonathan Reem
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        no_std_io2
+Repository:  https://github.com/wcampbell0x2a/no-std-io2
+Authors:     
+License:     Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        nom
+Repository:  https://github.com/rust-bakery/nom
+Authors:     contact@geoffroycouprie.com
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        noop_proc_macro
+Repository:  https://github.com/lu-zero/noop_proc_macro
+Authors:     Luca Barbato
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        num-bigint
+Repository:  https://github.com/rust-num/num-bigint
+Authors:     The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        num-complex
+Repository:  https://github.com/rust-num/num-complex
+Authors:     The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        num-derive
+Repository:  https://github.com/rust-num/num-derive
+Authors:     The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        num-integer
+Repository:  https://github.com/rust-num/num-integer
+Authors:     The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        num-rational
+Repository:  https://github.com/rust-num/num-rational
+Authors:     The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        num-traits
+Repository:  https://github.com/rust-num/num-traits
+Authors:     The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        once_cell
+Repository:  https://github.com/matklad/once_cell
+Authors:     Aleksey Kladov
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        parking_lot
+Repository:  https://github.com/Amanieu/parking_lot
+Authors:     Amanieu d'Antras
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        parking_lot_core
+Repository:  https://github.com/Amanieu/parking_lot
+Authors:     Amanieu d'Antras
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        paste
+Repository:  https://github.com/dtolnay/paste
+Authors:     David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        pastey
+Repository:  https://github.com/as1100k/pastey
+Authors:     Aditya Kumar, David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        png
+Repository:  https://github.com/image-rs/image-png
+Authors:     The image-rs Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        ppv-lite86
+Repository:  https://github.com/cryptocorrosion/cryptocorrosion
+Authors:     The CryptoCorrosion Contributors
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        proc-macro2
+Repository:  https://github.com/dtolnay/proc-macro2
+Authors:     David Tolnay, Alex Crichton
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        profiling
+Repository:  https://github.com/aclysma/profiling
+Authors:     Philip Degarmo
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        profiling-procmacros
+Repository:  https://github.com/aclysma/profiling
+Authors:     Philip Degarmo
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        pulp
+Repository:  https://github.com/sarah-quinones/pulp/
+Authors:     sarah quiñones
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        pulp-wasm-simd-flag
+Repository:  https://github.com/sarah-quinones/pulp/
+Authors:     sarah quiñones
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        pxfm
+Repository:  https://github.com/awxkee/pxfm
+Authors:     Radzivon Bartoshyk
+License:     BSD-3-Clause OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        qoi
+Repository:  https://github.com/aldanor/qoi-rust
+Authors:     Ivan Smirnov
+License:     MIT/Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        quick-error
+Repository:  http://github.com/tailhook/quick-error
+Authors:     Paul Colomiets, Colin Kiegel
+License:     MIT/Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        quote
+Repository:  https://github.com/dtolnay/quote
+Authors:     David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        r-efi
+Repository:  https://github.com/r-efi/r-efi
+Authors:     
+License:     MIT OR Apache-2.0 OR LGPL-2.1-or-later
+
+-------------------------------------------------------------
+
+Name:        r-efi
+Repository:  https://github.com/r-efi/r-efi
+Authors:     
+License:     MIT OR Apache-2.0 OR LGPL-2.1-or-later
+
+-------------------------------------------------------------
+
+Name:        rand
+Repository:  https://github.com/rust-random/rand
+Authors:     The Rand Project Developers, The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        rand_chacha
+Repository:  https://github.com/rust-random/rand
+Authors:     The Rand Project Developers, The Rust Project Developers, The CryptoCorrosion Contributors
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        rand_core
+Repository:  https://github.com/rust-random/rand
+Authors:     The Rand Project Developers, The Rust Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        rav1e
+Repository:  https://github.com/xiph/rav1e/
+Authors:     Thomas Daede
+License:     BSD-2-Clause
+
+-------------------------------------------------------------
+
+Name:        ravif
+Repository:  https://github.com/kornelski/cavif-rs
+Authors:     Kornel Lesiński
+License:     BSD-3-Clause
+
+-------------------------------------------------------------
+
+Name:        raw-cpuid
+Repository:  https://github.com/gz/rust-cpuid
+Authors:     Gerd Zellweger
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        rayon
+Repository:  https://github.com/rayon-rs/rayon
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        rayon-core
+Repository:  https://github.com/rayon-rs/rayon
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        readonly
+Repository:  https://github.com/dtolnay/readonly
+Authors:     David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        reborrow
+Repository:  https://github.com/sarah-ek/reborrow/
+Authors:     sarah <>
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        redox_syscall
+Repository:  https://gitlab.redox-os.org/redox-os/syscall
+Authors:     Jeremy Soller
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        rgb
+Repository:  https://github.com/kornelski/rust-rgb
+Authors:     Kornel Lesiński, James Forster
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        rustix
+Repository:  https://github.com/bytecodealliance/rustix
+Authors:     Dan Gohman, Jakub Konka
+License:     Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        rustix
+Repository:  https://github.com/bytecodealliance/rustix
+Authors:     Dan Gohman, Jakub Konka
+License:     Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        rustversion
+Repository:  https://github.com/dtolnay/rustversion
+Authors:     David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        scopeguard
+Repository:  https://github.com/bluss/scopeguard
+Authors:     bluss
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        shlex
+Repository:  https://github.com/comex/rust-shlex
+Authors:     comex, Fenhl, Adrian Taylor, Alex Touchet, Daniel Parks, Garrett Berg
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        simd-adler32
+Repository:  https://github.com/mcountryman/simd-adler32
+Authors:     Marvin Countryman
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        simd_helpers
+Repository:  https://github.com/lu-zero/simd_helpers
+Authors:     Luca Barbato
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        smallvec
+Repository:  https://github.com/servo/rust-smallvec
+Authors:     The Servo Project Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        stable_deref_trait
+Repository:  https://github.com/storyyeller/stable_deref_trait
+Authors:     Robert Grosse
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        syn
+Repository:  https://github.com/dtolnay/syn
+Authors:     David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        syn
+Repository:  https://github.com/dtolnay/syn
+Authors:     David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        tempfile
+Repository:  https://github.com/Stebalien/tempfile
+Authors:     Steven Allen, The Rust Project Developers, Ashley Mannix, Jason White
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        termcolor
+Repository:  https://github.com/BurntSushi/termcolor
+Authors:     Andrew Gallant
+License:     Unlicense OR MIT
+
+-------------------------------------------------------------
+
+Name:        thiserror
+Repository:  https://github.com/dtolnay/thiserror
+Authors:     David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        thiserror-impl
+Repository:  https://github.com/dtolnay/thiserror
+Authors:     David Tolnay
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        tiff
+Repository:  https://github.com/image-rs/image-tiff
+Authors:     The image-rs Developers
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        unicode-ident
+Repository:  https://github.com/dtolnay/unicode-ident
+Authors:     David Tolnay
+License:     (MIT OR Apache-2.0) AND Unicode-3.0
+
+-------------------------------------------------------------
+
+Name:        v_frame
+Repository:  https://github.com/rust-av/v_frame
+Authors:     Luca Barbato
+License:     BSD-2-Clause
+
+-------------------------------------------------------------
+
+Name:        version_check
+Repository:  https://github.com/SergioBenitez/version_check
+Authors:     Sergio Benitez
+License:     MIT/Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        viuer
+Repository:  https://github.com/atanunq/viuer
+Authors:     Atanas Yankov
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        wasip2
+Repository:  https://github.com/bytecodealliance/wasi-rs
+Authors:     
+License:     Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        wasm-bindgen
+Repository:  https://github.com/wasm-bindgen/wasm-bindgen
+Authors:     The wasm-bindgen Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        wasm-bindgen-macro
+Repository:  https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/macro
+Authors:     The wasm-bindgen Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        wasm-bindgen-macro-support
+Repository:  https://github.com/wasm-bindgen/wasm-bindgen/tree/main/crates/macro-support
+Authors:     The wasm-bindgen Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        wasm-bindgen-shared
+Repository:  https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared
+Authors:     The wasm-bindgen Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        weezl
+Repository:  https://github.com/image-rs/weezl
+Authors:     The image-rs Developers
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        winapi
+Repository:  https://github.com/retep998/winapi-rs
+Authors:     Peter Atashian
+License:     MIT/Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        winapi-i686-pc-windows-gnu
+Repository:  https://github.com/retep998/winapi-rs
+Authors:     Peter Atashian
+License:     MIT/Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        winapi-util
+Repository:  https://github.com/BurntSushi/winapi-util
+Authors:     Andrew Gallant
+License:     Unlicense OR MIT
+
+-------------------------------------------------------------
+
+Name:        winapi-x86_64-pc-windows-gnu
+Repository:  https://github.com/retep998/winapi-rs
+Authors:     Peter Atashian
+License:     MIT/Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows-link
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows-sys
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows-sys
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows-targets
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows_aarch64_gnullvm
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows_aarch64_msvc
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows_i686_gnu
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows_i686_gnullvm
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows_i686_msvc
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows_x86_64_gnu
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows_x86_64_gnullvm
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        windows_x86_64_msvc
+Repository:  https://github.com/microsoft/windows-rs
+Authors:     Microsoft
+License:     MIT OR Apache-2.0
+
+-------------------------------------------------------------
+
+Name:        wit-bindgen
+Repository:  https://github.com/bytecodealliance/wit-bindgen
+Authors:     Alex Crichton
+License:     Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        y4m
+Repository:  https://github.com/image-rs/y4m.git
+Authors:     Kagami Hiiragi
+License:     MIT
+
+-------------------------------------------------------------
+
+Name:        zerocopy
+Repository:  https://github.com/google/zerocopy
+Authors:     
+License:     BSD-2-Clause OR Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        zerocopy-derive
+Repository:  https://github.com/google/zerocopy
+Authors:     
+License:     BSD-2-Clause OR Apache-2.0 OR MIT
+
+-------------------------------------------------------------
+
+Name:        zlib-rs
+Repository:  https://github.com/trifectatechfoundation/zlib-rs
+Authors:     
+License:     Zlib
+
+-------------------------------------------------------------
+
+Name:        zune-core
+Repository:  https://github.com/etemesi254/zune-image
+Authors:     
+License:     MIT OR Apache-2.0 OR Zlib
+
+-------------------------------------------------------------
+
+Name:        zune-inflate
+Repository:  NA
+Authors:     
+License:     MIT OR Apache-2.0 OR Zlib
+
+-------------------------------------------------------------
+
+Name:        zune-jpeg
+Repository:  https://github.com/etemesi254/zune-image/tree/dev/crates/zune-jpeg
+Authors:     caleb
+License:     MIT OR Apache-2.0 OR Zlib
+
+-------------------------------------------------------------

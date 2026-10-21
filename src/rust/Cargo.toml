@@ -1,0 +1,29 @@
+[package]
+name = 'rviuer'
+publish = false
+version = '0.1.0'
+edition = '2021'
+rust-version = '1.65'
+
+[lib]
+crate-type = ['rlib', 'staticlib']
+name = 'rviuer'
+
+[[bin]]
+name = 'document'
+path = 'document.rs'
+
+[features]
+default = []
+# Forward to viuer so that `Config::use_sixel` is available.
+sixel = ["viuer/sixel"]
+
+[dependencies]
+extendr-api = '0.9.0'
+image = { version = "0.25", default-features = false, features = ["png"] }
+# `print-file` provides `viuer::print_from_file`, used by `print_from_str`.
+viuer = { version = "0.9.2", features = ["print-file"] }
+
+[profile.release]
+lto = true
+codegen-units = 1
