@@ -7,9 +7,6 @@ template:
         bootswatch: sandstone
         code_font: { google: "JetBrains Mono" }
         pkgdown-nav-height: 100px
-        bg: white
-        fg: black
-        primary: "#2c5f9b"
 
 title: rviuer
 description: >-
@@ -30,6 +27,24 @@ reference:
           Turn plotting code into PNG bytes, without temporary files.
       contents:
           - capture_plot
+
+    - title: Pixel Art
+      desc: >
+          Draw text with the built-in 3 x 5 pixel font.
+      contents:
+          - draw_pixels
+          - pixel_font_3x5
+          - get_glyph
+          - pixel_font_add
+
+    - title: Pixel Matrices
+      desc: >
+          Convert text to a matrix of pixels and turn that matrix into ggplot2
+          tiles.
+      contents:
+          - text_to_matrix
+          - matrix_to_pixels
+          - draw_matrix
 
     - title: Configuration
       desc: >

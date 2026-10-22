@@ -19,7 +19,7 @@ NULL
 #' them with `= NULL`, so callers can omit the one they do not use instead of
 #' passing `NULL` explicitly.
 #'
-#' @export
+#' @keywords internal
 print_image <- function(config, file_path = NULL, raw = NULL) .Call(wrap__print_image, config, file_path, raw)
 
 # nolint end

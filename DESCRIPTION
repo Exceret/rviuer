@@ -8,6 +8,7 @@ Description: rviuer draws images, including plots captured straight from R, in t
     terminal supports them, and falls back to coloured half-blocks otherwise.
 License: MIT + file LICENSE
 Suggests: 
+    asciicast,
     ggplot2,
     testthat (>= 3.0.0),
     withr

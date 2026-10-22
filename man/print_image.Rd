@@ -20,3 +20,4 @@ The image-source arguments are nullable: the generated R wrapper declares
 them with \verb{= NULL}, so callers can omit the one they do not use instead of
 passing \code{NULL} explicitly.
 }
+\keyword{internal}
