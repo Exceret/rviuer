@@ -1,0 +1,73 @@
+---
+title: "Example"
+subtitle: "rviuer 0.1.0"
+author: "Yuxi Yang"
+date: "`r Sys.Date()`"
+lang: en-US
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    fig_caption: true
+    df_print: kable
+vignette: >
+  %\VignetteIndexEntry{Example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options:
+  markdown:
+    wrap: sentence
+  chunk_output_type: console
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%",
+  asciicast_at = "all",
+  asciicast_cursor = TRUE
+)
+asciicast::init_knitr_engine(
+  echo = TRUE,
+  echo_input = TRUE
+)
+options(cli.progress_show_after = 0)
+options(cli.progress_clear = FALSE)
+options(cli.progress_format_iterator = NULL)
+options(cli.progress_format_iterator_nototal = NULL)
+options(cli.progress_format_tasks = NULL)
+options(cli.progress_format_tasks_nototal = NULL)
+options(cli.progress_format_download = NULL)
+options(cli.progress_format_download_nototal = NULL)
+```
+
+You can use `capture_plot` to capture the plot (In theory, any format works, including `ggplot2`) in R session.
+
+```{asciicast}
+#' label: "example_capture"
+library(rviuer)
+p <- draw_pixels("rviuer") 
+p
+```
+
+```{asciicast}
+p |>
+  capture_plot(width = 40, height = 10) |>
+  render_plot()
+```
+
+You can also use file path directly.
+
+```{asciicast}
+#' label: "example_file_path"
+#' asciicast_speed: 2
+url  <- "https://raw.githubusercontent.com/tidyverse/dplyr/main/man/figures/logo.png"
+tmp <- tempdir()
+dest <- file.path(tmp, "logo.png")
+
+download.file(url, destfile = dest, mode = "wb")
+render_plot(dest)
+```

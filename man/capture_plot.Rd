@@ -17,7 +17,8 @@ capture_plot(
 \arguments{
 \item{expr}{Plotting code: a single expression or a braced block.}
 
-\item{width, height}{Image size, in units given by \code{units}.}
+\item{width, height}{Image size, in units given by \code{units}. Fractional values
+are allowed.}
 
 \item{units}{One of \code{"in"}, \code{"cm"}, \code{"mm"} or \code{"px"}.}
 

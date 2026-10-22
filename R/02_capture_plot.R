@@ -7,7 +7,8 @@
 #' graphics draw directly onto the device.
 #'
 #' @param expr Plotting code: a single expression or a braced block.
-#' @param width,height Image size, in units given by `units`.
+#' @param width,height Image size, in units given by `units`. Fractional values
+#'   are allowed.
 #' @param units One of `"in"`, `"cm"`, `"mm"` or `"px"`.
 #' @param res Resolution in pixels per inch.
 #' @param bg Background colour.
@@ -38,8 +39,8 @@ capture_plot <- function(
   ...
 ) {
   units <- rlang::arg_match(units)
-  rlang::check_number_whole(width)
-  rlang::check_number_whole(height)
+  rlang::check_number_decimal(width)
+  rlang::check_number_decimal(height)
   rlang::check_number_whole(res)
 
   prev_dev <- grDevices::dev.cur()

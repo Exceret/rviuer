@@ -7,7 +7,7 @@
 get_viuer_config(
   transparent = FALSE,
   premultiplied_alpha = FALSE,
-  absolute_offset = TRUE,
+  absolute_offset = FALSE,
   x = 0L,
   y = 0L,
   restore_cursor = FALSE,
@@ -29,7 +29,7 @@ Defaults to \code{FALSE}.}
 
 \item{absolute_offset}{If \code{TRUE}, the x and y offsets are relative to the
 top left terminal corner. If \code{FALSE}, the y offset is relative to the
-cursor's position. Defaults to \code{TRUE}.}
+cursor's position. Defaults to \code{FALSE}.}
 
 \item{x}{X offset, a non-negative integer (u16). Defaults to \code{0L}.}
 
@@ -37,13 +37,16 @@ cursor's position. Defaults to \code{TRUE}.}
 \code{absolute_offset = FALSE}. Defaults to \code{0L}.}
 
 \item{restore_cursor}{Take a note of the cursor position before printing and
-restore it when finished. Defaults to \code{FALSE}.}
+restore it when finished. Only useful when the image is redrawn in place
+(e.g. an animation): with \code{TRUE} the cursor is put back before the image,
+so the next prompt is printed over it. Defaults to \code{FALSE}.}
 
-\item{width}{Optional image width, \code{NULL} or a non-negative integer (u32).
-Defaults to \code{NULL}.}
-
-\item{height}{Optional image height, \code{NULL} or a non-negative integer (u32).
-Defaults to \code{NULL}.}
+\item{width, height}{Image size in \strong{terminal cells}, or \code{NULL} to fit the
+image to the terminal. When both are \code{NULL} the size is derived from the
+image and terminal dimensions, keeping the last row and column free so
+that a cell in the last column does not trigger the terminal's automatic
+line wrap. When only one of them is given, the other one follows from the
+aspect ratio of the image. Defaults to \code{NULL}.}
 
 \item{truecolor}{Use truecolor if the terminal supports it.
 Defaults to \code{TRUE}.}

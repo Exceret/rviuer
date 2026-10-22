@@ -22,4 +22,31 @@ NULL
 #' @keywords internal
 print_image <- function(config, file_path = NULL, raw = NULL) .Call(wrap__print_image, config, file_path, raw)
 
+#' Size of the terminal, in cells.
+#'
+#' Returns `width` (columns) and `height` (rows) as reported by the terminal
+#' itself, i.e. through `TIOCGWINSZ` on the file descriptor the image is
+#' written to. When the output is not a terminal (a pipe, `Rscript` with
+#' redirected output, ...) the size cannot be queried and viuer's fallback of
+#' 80 x 24 is returned.
+#'
+#' This is the same value [`fit_terminal_cells`] uses internally, so it is
+#' useful to check why an image came out at a given size.
+#'
+#' @return A list with the integer elements `width` and `height`.
+#'
+#' @keywords internal
+terminal_size <- function() .Call(wrap__terminal_size)
+
+#' Size, in terminal cells, that an image is printed at.
+#'
+#' @param img_width,img_height Size of the image, in pixels.
+#' @param term_width,term_height Size of the terminal, in cells.
+#'
+#' @return An integer vector of length two: the number of columns and the
+#'   number of rows (cells) the image occupies.
+#'
+#' @keywords internal
+fit_terminal_cells <- function(img_width, img_height, term_width, term_height) .Call(wrap__fit_terminal_cells, img_width, img_height, term_width, term_height)
+
 # nolint end

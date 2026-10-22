@@ -19,3 +19,7 @@
 ^src/Makevars$
 ^src/Makevars\.win$
 ^codecov\.yml$
+^settings\.json$
+^\.posit$
+^\.cargo$
+^_snaps$

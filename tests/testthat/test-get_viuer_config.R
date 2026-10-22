@@ -21,7 +21,7 @@ test_that("get_viuer_config() returns the documented defaults", {
   )
   expect_false(config$transparent)
   expect_false(config$premultiplied_alpha)
-  expect_true(config$absolute_offset)
+  expect_false(config$absolute_offset)
   expect_identical(config$x, 0L)
   expect_identical(config$y, 0L)
   expect_false(config$restore_cursor)

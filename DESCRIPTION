@@ -1,15 +1,17 @@
 Package: rviuer
-Title: R binding to viuer
+Title: R Binding to 'viuer'
 Version: 0.1.0
 Authors@R: 
     person("Yuxi", "Yang", , "15364051195@163.com", role = c("aut", "cre"))
-Description: rviuer draws images, including plots captured straight from R, in the
-    terminal. It uses the iTerm, Kitty or Sixel graphics protocols when the
+Description: Draws images, including plots captured straight from R, directly in
+    the terminal. It uses the iTerm, Kitty or Sixel graphics protocols when the
     terminal supports them, and falls back to coloured half-blocks otherwise.
 License: MIT + file LICENSE
 Suggests: 
     asciicast,
     ggplot2,
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3
@@ -27,3 +29,4 @@ Depends:
 Config/rextendr/version: 0.5.0
 SystemRequirements: Cargo (Rust's package manager), rustc >= 1.65.0, xz
 Config/roxygen2/version: 8.1.0
+VignetteBuilder: knitr

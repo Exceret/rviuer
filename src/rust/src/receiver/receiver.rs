@@ -1,6 +1,7 @@
 //
+use crate::msg::alert_warning;
 use extendr_api::{
-    extendr, extendr_module, Error, List, Nullable, Raw, Result, Robj, Rstr, Rtype, Types,
+    extendr, extendr_module, Error, Integers, List, Nullable, Raw, Result, Robj, Rstr, Rtype, Types,
 };
 use viuer::Config;
 
@@ -45,6 +46,52 @@ fn print_image(
     Receiver::new(config, receiver_type_from_r(file_path, raw)?)?.print()
 }
 
+/// Size of the terminal, in cells.
+///
+/// Returns `width` (columns) and `height` (rows) as reported by the terminal
+/// itself, i.e. through `TIOCGWINSZ` on the file descriptor the image is
+/// written to. When the output is not a terminal (a pipe, `Rscript` with
+/// redirected output, ...) the size cannot be queried and viuer's fallback of
+/// 80 x 24 is returned.
+///
+/// This is the same value [`fit_terminal_cells`] uses internally, so it is
+/// useful to check why an image came out at a given size.
+///
+/// @return A list with the integer elements `width` and `height`.
+///
+/// @keywords internal
+#[extendr]
+fn terminal_size() -> Result<List> {
+    let (width, height) = viuer::terminal_size();
+
+    List::from_names_and_values(
+        vec!["width", "height"],
+        vec![i32::from(width), i32::from(height)],
+    )
+}
+
+/// Size, in terminal cells, that an image is printed at.
+///
+/// @param img_width,img_height Size of the image, in pixels.
+/// @param term_width,term_height Size of the terminal, in cells.
+///
+/// @return An integer vector of length two: the number of columns and the
+///   number of rows (cells) the image occupies.
+///
+/// @keywords internal
+#[extendr]
+fn fit_terminal_cells(
+    img_width: u32,
+    img_height: u32,
+    term_width: u32,
+    term_height: u32,
+) -> Integers {
+    let cells = fit_cells(img_width, img_height, term_width, term_height);
+    warn_if_height_capped(&cells);
+
+    Integers::from_values(vec![cells.width as i32, cells.height as i32])
+}
+
 /// Convert the R-side image source into a [`ReceiverType`].
 ///
 /// The `Raw` handle is moved into [`ReceiverType::FromRaw`] rather than being
@@ -85,22 +132,27 @@ impl Receiver {
     /// The receiver is consumed so the owned [`Raw`] handle stays alive while
     /// the image is decoded: `raw.as_slice()` borrows from it, so the borrow
     /// lives no longer than this call and no bytes are copied.
+    ///
+    /// `config` is mutable because the size is filled in here, once the image
+    /// dimensions are known (see [`fit_config_to_terminal`]).
     fn print(self) -> Result<()> {
         let Self {
-            config,
+            mut config,
             receiver_type,
         } = self;
 
         match receiver_type {
-            ReceiverType::FromRaw(raw) => Self::print_from_raw(&config, raw.as_slice()),
-            ReceiverType::FromFilePath(file_path) => Self::print_from_str(&config, &file_path),
+            ReceiverType::FromRaw(raw) => Self::print_from_raw(&mut config, raw.as_slice()),
+            ReceiverType::FromFilePath(file_path) => Self::print_from_str(&mut config, &file_path),
         }
     }
 
     /// Print a PNG-encoded byte buffer.
-    fn print_from_raw(config: &Config, raw: &[u8]) -> Result<()> {
+    fn print_from_raw(config: &mut Config, raw: &[u8]) -> Result<()> {
         let image = image::load_from_memory_with_format(raw, image::ImageFormat::Png)
             .map_err(|err| Error::Other(format!("Image decoding failed: {err}")))?;
+
+        fit_config_to_terminal(config, image.width(), image.height());
 
         viuer::print(&image, config)
             .map_err(|err| Error::Other(format!("Image printing failed: {err}")))?;
@@ -109,12 +161,138 @@ impl Receiver {
     }
 
     /// Print the image stored at `file_path`.
-    fn print_from_str(config: &Config, file_path: &str) -> Result<()> {
+    fn print_from_str(config: &mut Config, file_path: &str) -> Result<()> {
+        // Only the header is read here, so the size can be fitted before the
+        // image itself is decoded (by `viuer::print_from_file`, which keeps
+        // its own error messages).
+        if let Some((width, height)) = image_dimensions(file_path) {
+            fit_config_to_terminal(config, width, height);
+        }
+
         viuer::print_from_file(file_path, config)
             .map_err(|err| Error::Other(format!("Image printing failed: {err}")))?;
 
         Ok(())
     }
+}
+
+/// Size, in terminal cells, for an image that has to fit the terminal.
+///
+/// A cell is about twice as tall as it is wide, so two image rows share one
+/// cell: the number of rows an image occupies is half its pixel height once it
+/// has been scaled to the width. Two details matter:
+///
+/// * The width keeps one column free. Printing a cell in the last column puts
+///   the terminal in its "wrap pending" state, and an image that is exactly as
+///   wide as the terminal is sheared on terminals that wrap immediately.
+/// * The height is rounded, not truncated. `viuer` divides the scaled pixel
+///   height by two, which squashes a wide image vertically (up to a full cell,
+///   i.e. several percent of its height).
+///
+/// An image that already fits is returned unchanged, so small images are not
+/// blown up to the terminal size.
+///
+/// The computation has no side effects: it only reports through
+/// [`Cells::height_capped`] that the image had to be shrunk below the width it
+/// was fitted to, so the caller decides whether to tell the user.
+fn fit_cells(img_width: u32, img_height: u32, term_width: u32, term_height: u32) -> Cells {
+    let img_width = img_width.max(1);
+    let img_height = img_height.max(1);
+    let max_width = term_width.saturating_sub(1).max(1);
+    let max_height = term_height.saturating_sub(1).max(1);
+
+    if img_width <= max_width && img_height <= 2 * max_height {
+        // `div_ceil` is only available from Rust 1.73, and the crate supports
+        // 1.65, so the ceiling division is spelled out.
+        return Cells {
+            width: img_width,
+            height: (img_height + 1) / 2,
+            height_capped: false,
+        };
+    }
+
+    // Fit the width first; the height follows from the image aspect ratio.
+    let mut width = max_width;
+    let mut height = cells_for_width(img_height, img_width, width);
+    let mut height_capped = false;
+
+    if height > max_height {
+        // The image is too tall for the terminal after scaling: fit it to the
+        // height instead and derive the width.
+        height_capped = true;
+        height = max_height;
+        width = cells_for_height(img_height, img_width, height);
+    }
+
+    Cells {
+        width: width.max(1),
+        height: height.max(1),
+        height_capped,
+    }
+}
+
+/// Size, in terminal cells, computed by [`fit_cells`].
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Cells {
+    /// Number of columns the image occupies.
+    width: u32,
+    /// Number of rows (cells) the image occupies.
+    height: u32,
+    /// The image was too tall once fitted to the width, so it was shrunk to the
+    /// terminal height and the width was derived from it.
+    height_capped: bool,
+}
+
+/// Tell the user that an image was shrunk to the terminal height.
+fn warn_if_height_capped(cells: &Cells) {
+    if cells.height_capped {
+        alert_warning("Plot height is reset to max height", true);
+    }
+}
+
+/// Cell rows an image of `img_height` pixels occupies once scaled to `width`.
+fn cells_for_width(img_height: u32, img_width: u32, width: u32) -> u32 {
+    (f64::from(img_height) * f64::from(width) / f64::from(img_width) / 2.0).round() as u32
+}
+
+/// Cell columns an image of `img_width` pixels occupies at `height` cell rows.
+fn cells_for_height(img_height: u32, img_width: u32, height: u32) -> u32 {
+    (f64::from(img_width) * 2.0 * f64::from(height) / f64::from(img_height)).round() as u32
+}
+
+/// Fill in the print size when the caller did not ask for one.
+///
+/// `width` and `height` are only computed when both are unset: a single
+/// explicit dimension is left to `viuer`, which then fits the other one while
+/// preserving the aspect ratio.
+fn fit_config_to_terminal(config: &mut Config, img_width: u32, img_height: u32) {
+    if config.width.is_some() || config.height.is_some() {
+        return;
+    }
+
+    let (term_width, term_height) = viuer::terminal_size();
+    let cells = fit_cells(
+        img_width,
+        img_height,
+        u32::from(term_width),
+        u32::from(term_height),
+    );
+    warn_if_height_capped(&cells);
+
+    config.width = Some(cells.width);
+    config.height = Some(cells.height);
+}
+
+/// Pixel dimensions of an image file, without decoding its pixels.
+///
+/// Returns `None` when the file cannot be opened or is not a recognised image;
+/// printing then fails with `viuer`'s own error message.
+fn image_dimensions(file_path: &str) -> Option<(u32, u32)> {
+    image::ImageReader::open(file_path)
+        .and_then(|reader| reader.with_guessed_format())
+        .ok()?
+        .into_dimensions()
+        .ok()
 }
 
 /// Turn the R-side option list into a [`Config`].
@@ -211,4 +389,10 @@ fn field_size(config: &List, name: &str) -> Result<Option<u32>> {
 extendr_module! {
     mod receiver;
     fn print_image;
+    fn terminal_size;
+    fn fit_terminal_cells;
 }
+
+#[cfg(test)]
+#[path = "../tests/receiver_test.rs"]
+mod tests;

@@ -12,7 +12,8 @@ coverage](https://codecov.io/gh/Exceret/rviuer/graph/badge.svg)](https://app.cod
 [![R-CMD-check](https://github.com/Exceret/rviuer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Exceret/rviuer/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of rviuer is to …
+The goal of rviuer is to provide a tool to show the plot in R session
+(and to practice my Rust coding skills 🦀).
 
 ## Installation
 
@@ -24,11 +25,33 @@ You can install the development version of rviuer from
 pak::pak("Exceret/rviuer")
 ```
 
-## Example
+## Exmaple
 
-This is a basic example which shows you how to solve a common problem:
+You can use `capture_plot` to capture the plot (In theory, any format
+works, including `ggplot2`) in R session.
 
 ``` r
 library(rviuer)
-## basic example code
+draw_pixels("rviuer") |>
+  capture_plot(width = 50, height = 20) |>
+  render_plot()
 ```
+
+You can also use file path directly.
+
+``` r
+url <- "https://raw.githubusercontent.com/tidyverse/dplyr/main/man/figures/logo.png"
+tmp <- tempdir()
+dest <- file.path(tmp, "logo.png")
+
+download.file(url, destfile = dest, mode = "wb")
+render_plot(dest)
+```
+
+## Vignettes
+
+- [Example](vignettes/example.Rmd)
+
+## Related tools
+
+MIT @ [viuer](https://github.com/atanunq/viuer)

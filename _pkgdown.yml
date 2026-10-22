@@ -52,12 +52,19 @@ reference:
       contents:
           - get_viuer_config
 
+articles:
+    - title: Articles
+      navbar: ~
+      contents:
+          - example
+
 # Navbar configuration
 navbar:
     structure:
         left:
             - intro
             - reference
+            - articles
         right:
             - search
             - github
@@ -71,6 +78,10 @@ navbar:
             text: Functions
             icon: fa-code
             href: reference/index.html
+        articles:
+            text: Articles
+            icon: fa-book
+            href: articles/index.html
         search: []
         lightswitch:
             icon: fa-sun

@@ -1,5 +1,6 @@
 use extendr_api::prelude::*;
 
+mod msg;
 mod receiver;
 
 // Macro to generate exports.

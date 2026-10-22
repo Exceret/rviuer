@@ -54,3 +54,8 @@ docs
 src/rust/vendor
 src/Makevars
 src/Makevars.win
+
+# local cargo settings (machine-specific R library path)
+src/rust/.cargo
+inst/doc
+vignettes/.nfs0000001e0195b9a80001b0d3

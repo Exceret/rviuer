@@ -38,8 +38,11 @@ $(STATLIB):
 	export PATH="$(PATH):$(HOME)/.cargo/bin" && \
 	@PANIC_EXPORTS@RUSTFLAGS="$(RUSTFLAGS) --print=native-static-libs" cargo build @CRAN_FLAGS@ --lib @PROFILE@ --manifest-path=./rust/Cargo.toml --target-dir $(TARGET_DIR) @TARGET@
 
+	# The `document` binary links against libR at run time, so the dynamic
+	# loader needs R's lib dir when the package is built outside R's own shell.
 	export CARGO_HOME=$(CARGOTMP) && \
 	export PATH="$(PATH):$(HOME)/.cargo/bin" && \
+	LD_LIBRARY_PATH="$(R_HOME)/lib$(R_ARCH)$${LD_LIBRARY_PATH:+:$${LD_LIBRARY_PATH}}" \
 	cargo run @CRAN_FLAGS@ --bin document --manifest-path=./rust/Cargo.toml --target-dir $(TARGET_DIR) @TARGET@
 
 	# Always clean up CARGOTMP
