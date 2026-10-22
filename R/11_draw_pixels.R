@@ -29,7 +29,9 @@ text_to_matrix <- function(
   spacing <- as.integer(spacing)
   line_spacing <- as.integer(line_spacing)
   if (spacing < 0L || line_spacing < 0L) {
-    cli::cli_abort("{.arg spacing} and {.arg line_spacing} must be non-negative.")
+    cli::cli_abort(
+      "{.arg spacing} and {.arg line_spacing} must be non-negative."
+    )
   }
 
   gap_cols <- matrix(0L, nrow = 5L, ncol = spacing)
@@ -99,8 +101,6 @@ matrix_to_pixels <- function(m) {
 #'
 #' @return A `ggplot` object.
 #' @seealso [text_to_matrix()], [draw_pixels()]
-#' @examples
-#' draw_matrix(get_glyph("k"))
 draw_matrix <- function(
   m,
   fill = "steelblue",
@@ -129,9 +129,10 @@ draw_matrix <- function(
   }
   df$value <- as.character(df$value)
 
+  col <- row <- value <- NULL # ease NOTE
   ggplot2::ggplot(
     df,
-    ggplot2::aes(x = .data$col, y = .data$row, fill = .data$value)
+    ggplot2::aes(x = col, y = row, fill = value)
   ) +
     ggplot2::geom_tile(color = border, linewidth = border_width) +
     ggplot2::scale_fill_manual(values = colors, guide = "none") +
