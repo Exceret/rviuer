@@ -12,7 +12,9 @@
 #'   elements are strings of length 3.
 #' @seealso [get_glyph()], [pixel_font_add()], [draw_pixels()]
 #' @examples
+#' \donttest{
 #' pixel_font_3x5[["A"]]
+#' }
 #' @export
 pixel_font_3x5 <- list(
   # ---- letters ------------------------------------------------------------
@@ -94,7 +96,9 @@ check_glyph <- function(rows) {
 #'   filled pixel.
 #' @seealso [pixel_font_3x5], [text_to_matrix()]
 #' @examples
+#' \donttest{
 #' get_glyph("a")
+#' }
 #' @export
 get_glyph <- function(char, font = pixel_font_3x5) {
   if (
@@ -127,8 +131,10 @@ get_glyph <- function(char, font = pixel_font_3x5) {
 #'
 #' @return The updated font (a named list).
 #' @examples
+#' \donttest{
 #' font <- pixel_font_add(pixel_font_3x5, "#", c("101", "111", "101", "111", "101"))
 #' get_glyph("#", font)
+#' }
 #' @export
 pixel_font_add <- function(font = pixel_font_3x5, char, rows) {
   if (

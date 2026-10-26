@@ -22,6 +22,8 @@ The updated font (a named list).
 Returns a modified copy of \code{font}; the original is left untouched.
 }
 \examples{
+\donttest{
 font <- pixel_font_add(pixel_font_3x5, "#", c("101", "111", "101", "111", "101"))
 get_glyph("#", font)
+}
 }

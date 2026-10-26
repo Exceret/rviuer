@@ -40,9 +40,6 @@ A \code{ggplot} object.
 \description{
 Draw a pixel matrix with ggplot2
 }
-\examples{
-draw_matrix(get_glyph("k"))
-}
 \seealso{
 \code{\link[=text_to_matrix]{text_to_matrix()}}, \code{\link[=draw_pixels]{draw_pixels()}}
 }

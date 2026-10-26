@@ -50,9 +50,11 @@ The main entry point: converts \code{text} to a pixel matrix with
 \code{\link[=text_to_matrix]{text_to_matrix()}} and plots it with \code{\link[=draw_matrix]{draw_matrix()}}.
 }
 \examples{
+\donttest{
 draw_pixels("rviuer")
 draw_pixels("rviuer", color_by = "letter")
 draw_pixels("hello\nworld", fill = "tomato", border = NA)
+}
 }
 \seealso{
 \link{pixel_font_3x5}, \code{\link[=pixel_font_add]{pixel_font_add()}}

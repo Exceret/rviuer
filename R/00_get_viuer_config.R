@@ -31,6 +31,9 @@
 #'   Defaults to `TRUE`.
 #'
 #' @return A list of the configuration options.
+#' @examples
+#' get_viuer_config()
+#'
 #' @export
 get_viuer_config <- function(
   transparent = FALSE,

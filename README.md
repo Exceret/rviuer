@@ -13,7 +13,7 @@ coverage](https://codecov.io/gh/Exceret/rviuer/graph/badge.svg)](https://app.cod
 <!-- badges: end -->
 
 The goal of rviuer is to provide a tool to show the plot in R session
-(and to practice my Rust coding skills 🦀).
+(and to practice my Rust coding 🦀).
 
 ## Installation
 

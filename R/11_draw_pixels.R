@@ -14,8 +14,10 @@
 #' @return An integer matrix. Empty pixels are `0`.
 #' @seealso [get_glyph()], [matrix_to_pixels()], [draw_pixels()]
 #' @examples
+#' \donttest{
 #' dim(text_to_matrix("rviuer"))  # 5 rows, 6 * 3 + 5 = 23 columns
 #' text_to_matrix("hi\nyo", line_spacing = 2)
+#' }
 text_to_matrix <- function(
   text,
   font = pixel_font_3x5,
@@ -80,7 +82,9 @@ text_to_matrix <- function(
 #' @return A data frame with one row per pixel and the columns `row`, `col`
 #'   (both starting at 1, `row` counted from the top) and `value`.
 #' @examples
+#' \donttest{
 #' head(matrix_to_pixels(text_to_matrix("a")))
+#' }
 matrix_to_pixels <- function(m) {
   if (!is.matrix(m)) {
     cli::cli_abort("{.arg m} must be a matrix.")
@@ -161,9 +165,11 @@ draw_matrix <- function(
 #'   saved with [ggplot2::ggsave()].
 #' @seealso [pixel_font_3x5], [pixel_font_add()]
 #' @examples
+#' \donttest{
 #' draw_pixels("rviuer")
 #' draw_pixels("rviuer", color_by = "letter")
 #' draw_pixels("hello\nworld", fill = "tomato", border = NA)
+#' }
 #' @export
 draw_pixels <- function(
   text,

@@ -8,7 +8,6 @@ Description: Draws images, including plots captured straight from R, directly in
     terminal supports them, and falls back to coloured half-blocks otherwise.
 License: MIT + file LICENSE
 Suggests: 
-    asciicast,
     ggplot2,
     knitr,
     rmarkdown,

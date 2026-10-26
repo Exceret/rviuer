@@ -66,3 +66,7 @@ A list of the configuration options.
 \description{
 Create a terminal image print configuration
 }
+\examples{
+get_viuer_config()
+
+}

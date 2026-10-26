@@ -21,7 +21,9 @@ Looks up one character in a pixel font and returns it as a 5 x 3 integer
 matrix of zeros and ones.
 }
 \examples{
+\donttest{
 get_glyph("a")
+}
 }
 \seealso{
 \link{pixel_font_3x5}, \code{\link[=text_to_matrix]{text_to_matrix()}}

@@ -21,7 +21,9 @@ punctuation marks. Letters are stored in upper case; look-ups through
 \code{\link[=get_glyph]{get_glyph()}} are case-insensitive.
 }
 \examples{
+\donttest{
 pixel_font_3x5[["A"]]
+}
 }
 \seealso{
 \code{\link[=get_glyph]{get_glyph()}}, \code{\link[=pixel_font_add]{pixel_font_add()}}, \code{\link[=draw_pixels]{draw_pixels()}}

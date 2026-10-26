@@ -46,28 +46,52 @@ options(cli.progress_format_download_nototal = NULL)
 
 You can use `capture_plot` to capture the plot (In theory, any format works, including `ggplot2`) in R session.
 
-```{asciicast}
-#' label: "example_capture"
+```{r}
+#| label: "example_capture"
+#| eval: false
 library(rviuer)
-p <- draw_pixels("rviuer") 
-p
-```
-
-```{asciicast}
-p |>
+draw_pixels("rviuer") |>
   capture_plot(width = 40, height = 10) |>
   render_plot()
 ```
 
+```{bash}
+#| include = FALSE,
+#| warning = FALSE,
+#| label = "rendering true plot from shell"
+Rscript -e '
+library(rviuer)
+draw_pixels("rviuer") |>
+  capture_plot(width = 40, height = 10) |>
+  render_plot() 
+  '
+```
+
 You can also use file path directly.
 
-```{asciicast}
-#' label: "example_file_path"
-#' asciicast_speed: 2
+```{r}
+#| label: "example_file_path"
+#| eval: false
+url <- "https://raw.githubusercontent.com/tidyverse/dplyr/main/man/figures/logo.png"
+tmp <- tempdir()
+dest <- file.path(tmp, "logo.png")
+try({
+  download.file(url, destfile = dest, mode = "wb")
+  render_plot(dest)
+})
+```
+
+```{bash}
+#| include = FALSE,
+#| warning = FALSE,
+#| label = "rendering true plot from shell2"
+Rscript -e '
+library(rviuer)
 url  <- "https://raw.githubusercontent.com/tidyverse/dplyr/main/man/figures/logo.png"
 tmp <- tempdir()
 dest <- file.path(tmp, "logo.png")
 
 download.file(url, destfile = dest, mode = "wb")
 render_plot(dest)
+  '
 ```

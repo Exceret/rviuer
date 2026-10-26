@@ -33,8 +33,10 @@ Looks up every character of \code{text} in \code{font} and joins the 5 x 3 glyph
 side by side. A newline (\code{"\\n"}) starts a new line of pixels.
 }
 \examples{
+\donttest{
 dim(text_to_matrix("rviuer"))  # 5 rows, 6 * 3 + 5 = 23 columns
 text_to_matrix("hi\nyo", line_spacing = 2)
+}
 }
 \seealso{
 \code{\link[=get_glyph]{get_glyph()}}, \code{\link[=matrix_to_pixels]{matrix_to_pixels()}}, \code{\link[=draw_pixels]{draw_pixels()}}

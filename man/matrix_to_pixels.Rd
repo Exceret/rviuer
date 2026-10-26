@@ -17,5 +17,7 @@ A data frame with one row per pixel and the columns \code{row}, \code{col}
 Convert a pixel matrix to a long data frame
 }
 \examples{
+\donttest{
 head(matrix_to_pixels(text_to_matrix("a")))
+}
 }
