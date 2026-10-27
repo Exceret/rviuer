@@ -18,6 +18,7 @@
 #' dim(text_to_matrix("rviuer"))  # 5 rows, 6 * 3 + 5 = 23 columns
 #' text_to_matrix("hi\nyo", line_spacing = 2)
 #' }
+#' @export
 text_to_matrix <- function(
   text,
   font = pixel_font_3x5,
@@ -85,6 +86,7 @@ text_to_matrix <- function(
 #' \donttest{
 #' head(matrix_to_pixels(text_to_matrix("a")))
 #' }
+#' @export
 matrix_to_pixels <- function(m) {
   if (!is.matrix(m)) {
     cli::cli_abort("{.arg m} must be a matrix.")
@@ -105,6 +107,7 @@ matrix_to_pixels <- function(m) {
 #'
 #' @return A `ggplot` object.
 #' @seealso [text_to_matrix()], [draw_pixels()]
+#' @export
 draw_matrix <- function(
   m,
   fill = "steelblue",

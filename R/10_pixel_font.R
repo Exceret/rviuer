@@ -70,7 +70,7 @@ pixel_font_3x5 <- list(
 #' @param rows A character vector of five strings of three `"0"`/`"1"`
 #'   characters each.
 #' @return `TRUE`, invisibly. An error is raised if the definition is invalid.
-#' @keywords internal
+#' @export
 check_glyph <- function(rows) {
   ok <- is.character(rows) &&
     length(rows) == 5L &&
@@ -97,7 +97,8 @@ check_glyph <- function(rows) {
 #' @seealso [pixel_font_3x5], [text_to_matrix()]
 #' @examples
 #' \donttest{
-#' get_glyph("a")
+#' font <- pixel_font_add(pixel_font_3x5, "#", c("101", "111", "101", "111", "101"))
+#' get_glyph("#", font)
 #' }
 #' @export
 get_glyph <- function(char, font = pixel_font_3x5) {

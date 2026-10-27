@@ -16,4 +16,3 @@ characters each.}
 \description{
 Check that a glyph definition is valid
 }
-\keyword{internal}

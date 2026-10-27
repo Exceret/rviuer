@@ -22,7 +22,8 @@ matrix of zeros and ones.
 }
 \examples{
 \donttest{
-get_glyph("a")
+font <- pixel_font_add(pixel_font_3x5, "#", c("101", "111", "101", "111", "101"))
+get_glyph("#", font)
 }
 }
 \seealso{
