@@ -25,32 +25,153 @@ You can install the development version of rviuer from
 pak::pak("Exceret/rviuer")
 ```
 
-## Exmaple
+## Usage
 
-You can use `capture_plot` to capture the plot (In theory, any format
-works, including `ggplot2`) in R session.
+The package works in two steps: `capture_plot()` turns plotting code
+into PNG bytes, and `render_plot()` prints those bytes (or an image
+file) in the terminal.
 
 ``` r
 library(rviuer)
-draw_pixels("rviuer") |>
-  capture_plot(width = 50, height = 20) |>
+
+p <- ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) + ggplot2::geom_point()
+capture_plot(p, width = 6, height = 4) |> render_plot()
+```
+
+`capture_plot()` evaluates the plotting code on an in-memory `ragg`
+device, so no temporary file is created; a visible return value is
+printed automatically, which is why a `ggplot` object can be passed
+directly. Base graphics draw on the device as usual, and any output
+format works:
+
+``` r
+capture_plot(plot(1:10), width = 4, height = 3) |> render_plot()
+
+capture_plot(
+  {
+    par(mfrow = c(1, 2))
+    hist(rnorm(100))
+    boxplot(mpg ~ cyl, data = mtcars)
+  },
+  width = 8,
+  height = 3
+) |>
   render_plot()
 ```
 
-You can also use file path directly.
+### Render an image file
+
+`render_plot()` also accepts a path, and any format the `image` crate
+can decode is fine.
 
 ``` r
 url <- "https://raw.githubusercontent.com/tidyverse/dplyr/main/man/figures/logo.png"
-tmp <- tempdir()
-dest <- file.path(tmp, "logo.png")
+dest <- file.path(tempdir(), "logo.png")
 
 download.file(url, destfile = dest, mode = "wb")
 render_plot(dest)
 ```
 
-## Vignettes
+### Control the size
 
-- [Example](vignettes/example.Rmd)
+Two independent sizes are involved, and confusing them is the usual
+surprise:
+
+- `capture_plot(width, height, units, res)` sets the physical size of
+  the captured PNG (inches, cm, mm or px).
+- `get_viuer_config(width, height)` sets how many **terminal cells** the
+  image occupies.
+
+``` r
+# sharp image, 60 columns wide on screen
+capture_plot(p, width = 8, height = 5) |>
+  render_plot(get_viuer_config(width = 60))
+```
+
+When both config dimensions are `NULL` (the default) the image is fitted
+to the terminal, keeping the aspect ratio and never scaling a small
+image up. Setting only one of them lets the other follow from the aspect
+ratio.
+
+### Other options
+
+`get_viuer_config()` collects the printing options: size, offsets (`x`,
+`y`, `absolute_offset`), `transparent` and `premultiplied_alpha` for
+images with alpha, `restore_cursor` for redrawing in place, and
+`truecolor`, `use_iterm`, `use_kitty`, `use_sixel` to allow or forbid a
+graphics protocol.
+
+``` r
+render_plot(
+  "logo.png",
+  config = get_viuer_config(width = 40, transparent = TRUE)
+)
+```
+
+### Pixel art text
+
+`draw_pixels()` renders text with the built-in 3 x 5 font and returns a
+`ggplot` object, so it can be extended or saved like any other plot.
+
+``` r
+draw_pixels("rviuer")
+draw_pixels("rviuer", color_by = "letter")
+draw_pixels("hello\nworld", fill = "tomato", border = NA)
+
+draw_pixels("rviuer") |>
+  capture_plot(width = 6, height = 2) |>
+  render_plot()
+```
+
+The font covers `A`-`Z`, `0`-`9`, the space and a few punctuation marks;
+missing characters can be added with `pixel_font_add()`.
+`text_to_matrix()` and `matrix_to_pixels()` expose the underlying pixel
+grid.
+
+``` r
+font <- pixel_font_add(
+  pixel_font_3x5,
+  "#",
+  c("101", "111", "101", "111", "101")
+)
+draw_pixels("C#", font = font, palette = c("tomato", "steelblue"))
+```
+
+### Where images can be shown
+
+The graphics protocol is chosen automatically: iTerm, Kitty or Sixel
+when the terminal supports it, coloured half-blocks otherwise. A real
+terminal is required — RStudio, Positron and other IDE consoles,
+`Rscript` with redirected output and CI logs only receive the fallback’s
+escape sequences. Use `isatty(stdout())` (or `interactive()`) to guard
+rendering code in scripts.
+
+## Agent skill
+
+The repository ships an agent skill in `skills/rviuer/`, so coding
+assistants (Claude Code, Codex, CodeBuddy, …) know how to drive the
+package: the capture/render pipeline, the difference between a capture
+size and a terminal-cell size, which protocol the current terminal gets,
+and the error messages worth recognising. It also bundles
+`skills/rviuer/scripts/check_terminal.R`, which reports the detected
+protocol, the terminal size and an optional test render.
+
+Install it with the `skills` CLI:
+
+``` bash
+npx skills add Exceret/rviuer --skill rviuer
+```
+
+From a local clone the same command works with the path instead of the
+repository name:
+
+``` bash
+npx skills add . --skill rviuer
+```
+
+Add `--list` to only show the skills a repository offers, `--global` to
+install at user level instead of project level, and `--copy` to copy the
+files rather than symlink them into the agent directory.
 
 ## Related tools
 

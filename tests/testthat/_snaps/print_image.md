@@ -28,7 +28,7 @@
       print_image(get_viuer_config(), file_path = "missing.png")
     Condition
       Error in `print_image()`:
-      ! Image printing failed: IO error: No such file or directory (os error 2)
+      ! Image printing failed: IO error: <os message>
 
 # print_image() validates the configuration
 

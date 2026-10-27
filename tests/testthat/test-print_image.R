@@ -16,9 +16,17 @@ test_that("print_image() aborts on undecodable bytes", {
 })
 
 test_that("print_image() reports printing failures", {
+  # The tail of the IO error is produced by the OS and differs between
+  # platforms (Windows: "The system cannot find the file specified."), so it is
+  # scrubbed before the snapshot comparison.
+  scrub_io_error <- function(lines) {
+    sub("(IO error:).*", "\\1 <os message>", lines)
+  }
+
   expect_snapshot(
     error = TRUE,
-    print_image(get_viuer_config(), file_path = "missing.png")
+    print_image(get_viuer_config(), file_path = "missing.png"),
+    transform = scrub_io_error
   )
 })
 

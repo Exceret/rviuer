@@ -9,6 +9,7 @@
 ^pkgdown$
 ^[.]?air[.]toml$
 ^\.vscode$
+^skills$
 
 
 # flir files
