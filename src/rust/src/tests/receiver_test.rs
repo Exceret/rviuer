@@ -198,8 +198,12 @@ fn fit_config_to_terminal_fills_in_both_dimensions() {
 fn print_from_raw_rejects_bytes_that_are_not_png() {
     let mut config = Config::default();
 
-    let err = Receiver::print_from_raw(&mut config, b"not a png")
-        .expect_err("bytes that are not a PNG cannot be decoded");
+    let err = Receiver::print_from_raw(
+        &mut config,
+        b"not a png",
+        &mut RConsoleWriter::new(Output::Stderr),
+    )
+    .expect_err("bytes that are not a PNG cannot be decoded");
 
     assert!(
         err.to_string().contains("Image decoding failed"),
@@ -216,6 +220,7 @@ fn print_reports_printing_failures() {
             ..Config::default()
         },
         receiver_type: ReceiverType::FromFilePath(missing_path()),
+        output: Output::Stderr,
     };
 
     let err = receiver

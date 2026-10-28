@@ -19,16 +19,24 @@ NULL
 #' them with `= NULL`, so callers can omit the one they do not use instead of
 #' passing `NULL` explicitly.
 #'
+#' @param config The printing options, as a named list. The `output` element
+#'   set by [get_viuer_config()] is honoured when `output` is `NULL`.
+#' @param file_path,raw The image source; exactly one of them.
+#' @param output The R console channel to write to: `"stderr"` (R's message
+#'   stream, the default when neither this argument nor the `output` element of
+#'   `config` is given) or `"stdout"` (R's output stream). Writing to stderr
+#'   keeps R's ordinary output clean, the way the cli package does.
+#'
 #' @keywords internal
-print_image <- function(config, file_path = NULL, raw = NULL) .Call(wrap__print_image, config, file_path, raw)
+print_image <- function(config, file_path = NULL, raw = NULL, output = NULL) .Call(wrap__print_image, config, file_path, raw, output)
 
 #' Size of the terminal, in cells.
 #'
 #' Returns `width` (columns) and `height` (rows) as reported by the terminal
-#' itself, i.e. through `TIOCGWINSZ` on the file descriptor the image is
-#' written to. When the output is not a terminal (a pipe, `Rscript` with
-#' redirected output, ...) the size cannot be queried and viuer's fallback of
-#' 80 x 24 is returned.
+#' itself, i.e. through `TIOCGWINSZ` on the controlling terminal, which is also
+#' where the image is written to (R's stderr). When there is no terminal (a
+#' pipe, `Rscript` with redirected output, ...) the size cannot be queried and
+#' the fallback of 80 x 24 is returned.
 #'
 #' This is the same value [`fit_terminal_cells`] uses internally, so it is
 #' useful to check why an image came out at a given size.

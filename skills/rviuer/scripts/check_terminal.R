@@ -5,7 +5,9 @@
 #   Rscript check_terminal.R            # report only
 #   Rscript check_terminal.R --render   # also render a small test image
 #
-# Detection mirrors viuer 0.9.2 (see references/terminal-support.md).
+# The vendored viuer 0.11.0 asks the terminal itself (device attributes and the
+# kitty graphics query) when an image is printed, so environment variables can
+# only give a hint. See references/terminal-support.md.
 
 args <- commandArgs(trailingOnly = TRUE)
 do_render <- "--render" %in% args
@@ -33,13 +35,13 @@ sixel_term <- term %in%
 truecolor <- grepl("truecolor|24bit", colorterm)
 
 protocol <- if (iterm) {
-  "iTerm"
+  "iTerm (TERM_PROGRAM / LC_TERMINAL)"
 } else if (kitty) {
-  "Kitty"
+  "Kitty is likely (TERM looks like kitty), confirmed by a terminal query"
 } else if (sixel_term) {
   "Sixel-capable terminal, but this rviuer build has no sixel feature -> half-blocks"
 } else {
-  "half-blocks (ANSI)"
+  "half-blocks (ANSI), unless the terminal answers the kitty/sixel query"
 }
 
 rule("Environment")
@@ -54,7 +56,7 @@ for (name in c(
 }
 
 rule("Detection")
-cat("  stdout is a TTY: ", isatty(stdout()), "\n", sep = "")
+cat("  stderr is a TTY: ", isatty(stderr()), "\n", sep = "")
 cat("  interactive():   ", interactive(), "\n", sep = "")
 cat("  protocol:        ", protocol, "\n", sep = "")
 cat(
@@ -92,9 +94,9 @@ if (!do_render) {
 }
 
 rule("Test render")
-if (!isatty(stdout())) {
+if (!isatty(stderr())) {
   cat(
-    "  Skipped: stdout is not a terminal, escape codes would only pollute the log.\n"
+    "  Skipped: stderr is not a terminal, escape codes would only pollute the log.\n"
   )
   quit(status = 0)
 }

@@ -24,7 +24,10 @@ render_plot(x, config = get_viuer_config(), ...)
 }}
 
 \item{config}{A configuration list, as built by \code{\link[=get_viuer_config]{get_viuer_config()}}. It
-controls transparency, offsets, size and the protocols that are enabled.}
+controls transparency, offsets, size, the protocols that are enabled and
+the console stream the image is written to. Images go to R's message
+stream (stderr) by default, so \code{capture.output()} does not swallow them and
+\code{sink(type = "message")} can.}
 
 \item{...}{Further arguments passed on to \code{\link[=print_image]{print_image()}}.}
 }

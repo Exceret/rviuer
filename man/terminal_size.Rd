@@ -11,10 +11,10 @@ A list with the integer elements \code{width} and \code{height}.
 }
 \description{
 Returns \code{width} (columns) and \code{height} (rows) as reported by the terminal
-itself, i.e. through \code{TIOCGWINSZ} on the file descriptor the image is
-written to. When the output is not a terminal (a pipe, \code{Rscript} with
-redirected output, ...) the size cannot be queried and viuer's fallback of
-80 x 24 is returned.
+itself, i.e. through \code{TIOCGWINSZ} on the controlling terminal, which is also
+where the image is written to (R's stderr). When there is no terminal (a
+pipe, \code{Rscript} with redirected output, ...) the size cannot be queried and
+the fallback of 80 x 24 is returned.
 }
 \details{
 This is the same value \code{\link{fit_terminal_cells}} uses internally, so it is

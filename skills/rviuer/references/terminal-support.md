@@ -1,24 +1,24 @@
 # Terminal support and sizing
 
-How rviuer decides what to print, and why the size comes out as it does. Behaviour below is taken from `src/rust/src/receiver/receiver.rs`, the R wrappers in `R/`, and the vendored `viuer` 0.9.2 crate.
+How rviuer decides what to print, and why the size comes out as it does. Behaviour below is taken from `src/rust/src/receiver/receiver.rs`, the R wrappers in `R/`, and the vendored `viuer` 0.11.0 crate in `src/rust/src/viuer/`.
 
 ## Protocol selection
 
 `viuer` picks a printer on every print call, in this order:
 
-1. **Sixel** — only when the Rust crate is built with the `sixel` feature. rviuer's `Cargo.toml` has `default = []`, so a normal install never reaches this branch and `use_sixel` is ignored.
+1. **Sixel** — only when the Rust crate is built with the `sixel` feature. rviuer's `Cargo.toml` has `default = ["print-file"]`, so a normal install never reaches this branch and `use_sixel` is ignored. Detection asks the terminal with a primary device attributes query (`ESC [ c`) and looks for the Sixel capability in the reply.
 2. **iTerm** — `TERM_PROGRAM` contains `iTerm`, `WezTerm`, `mintty`, `rio` or `WarpTerminal`, or `LC_TERMINAL` contains `iTerm`, `WezTerm`, `mintty` or `rio`.
-3. **Kitty** — `TERM` contains `kitty` or `ghostty`.
+3. **Kitty** — answered by the terminal, not guessed from `TERM`: a kitty graphics query plus a device attributes query are written to stderr and the replies are read back from the terminal. `KittySupport::Local` means images can be shared through a temporary file, `Remote` means they have to be sent as (base64) escape codes, `None` falls through to the next printer.
 4. **Half-blocks** — ANSI coloured upper/lower block characters, always available.
 
-Sixel detection (only relevant when built with the feature), for reference: `TERM` in `mlterm`, `yaft-256color`, `foot`, `foot-extra`, `eat-truecolor`, `rio`; `TERM` in `st-256color`, `xterm`, `xterm-256color` triggers a device-attributes query; otherwise `TERM_PROGRAM == "MacTerm"`.
+The queries are written to stderr, the stream the image is drawn on; when there is no terminal the replies never arrive and the printer falls back to half-blocks.
 
 The detection results are cached in a lazy static, so changing environment variables inside a running R session does not re-probe the terminal: set them before starting R (or restart the session).
 
 Consequences:
 
-- RStudio, Positron, VS Code terminals, Emacs/ESS, a plain `Rscript` piped to a file and CI logs are not iTerm/Kitty terminals → half-block fallback. Escape sequences will end up in the log; use `isatty(stdout())` / `interactive()` to guard.
-- Output is written straight to the process's stdout file descriptor from Rust. R's `sink()` and `capture.output()` do **not** capture a rendered image — verified: the escape bytes still reach the console while `capture.output()` returns zero lines.
+- RStudio, Positron, VS Code terminals, Emacs/ESS, a plain `Rscript` piped to a file and CI logs are not iTerm/Kitty terminals → half-block fallback. Escape sequences will end up in the log; use `isatty(stderr())` / `interactive()` to guard.
+- Output is written to R's **message stream (stderr)** from Rust (`REprintf`), the same channel `cli` uses for its messages. `sink()` and `capture.output()` therefore return nothing for a render, while `sink(type = "message")` and `capture.output(type = "message")` capture (or silence) the escape bytes. `get_viuer_config(output = "stdout")` switches the drawing to R's ordinary output stream, where `sink()` applies again.
 
 ## Colour depth
 
@@ -30,7 +30,7 @@ Consequences:
 
 ## Terminal size
 
-`viuer::terminal_size()` asks the terminal (`TIOCGWINSZ` on the output descriptor) and falls back to **80 x 24** when there is no terminal. The same value is exposed for debugging as `rviuer:::terminal_size()`, so an unexpected 80x24 is usually a sign that stdout is not a TTY.
+`viuer::terminal_size()` asks the terminal (`TIOCGWINSZ` on the controlling terminal) and falls back to **80 x 24** when there is no terminal. The same value is exposed for debugging as `rviuer:::terminal_size()`, so an unexpected 80x24 is usually a sign that no TTY is attached.
 
 ## Fitting an image to the terminal
 
@@ -57,8 +57,8 @@ If exactly one of `width`/`height` is set, rviuer passes it through untouched an
 ## Practical checks before promising an image
 
 ```r
-rviuer::render_plot("logo.png")   # works, writes to the console
-isatty(stdout())                  # FALSE -> output is going to a pipe/log
+rviuer::render_plot("logo.png")   # works, writes to R's message stream
+isatty(stderr())                  # FALSE -> the message stream is going to a pipe/log
 Sys.getenv(c("TERM", "TERM_PROGRAM", "LC_TERMINAL", "COLORTERM"))
 ```
 

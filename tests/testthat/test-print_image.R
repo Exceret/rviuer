@@ -46,19 +46,80 @@ test_that("print_image() validates the configuration", {
   )
 })
 
-test_that("print_image() accepts a partial configuration", {
-  path <- local_png_file(n = 2L)
-
-  expect_null(
-    print_image(list(width = 1L, height = 1L), file_path = path)
+test_that("print_image() validates the output channel", {
+  expect_snapshot(
+    error = TRUE,
+    print_image(half_block_config(), raw = png_raw(2L), output = "console")
+  )
+  expect_snapshot(
+    error = TRUE,
+    print_image(list(output = "console"), raw = png_raw(2L))
+  )
+  expect_snapshot(
+    error = TRUE,
+    print_image(list(output = TRUE), raw = png_raw(2L))
   )
 })
 
-test_that("print_image() prints a PNG from memory", {
-  expect_null(
-    print_image(
-      get_viuer_config(width = 1L, height = 1L),
-      raw = png_raw(n = 2L)
-    )
+test_that("print_image() accepts a partial configuration", {
+  path <- local_png_file(n = 2L)
+
+  streams <- capture_streams(
+    invisible(print_image(list(width = 1L, height = 1L), file_path = path))
   )
+
+  expect_true(has_escape(streams$messages))
+})
+
+test_that("print_image() prints a PNG from memory", {
+  streams <- capture_streams(invisible(print_image(
+    half_block_config(),
+    raw = png_raw(n = 2L)
+  )))
+
+  expect_true(has_escape(streams$messages))
+})
+
+test_that("print_image() draws into R's message stream by default", {
+  streams <- capture_streams(invisible(print_image(
+    half_block_config(),
+    raw = png_raw(n = 2L)
+  )))
+
+  # The picture is on stderr, R's ordinary output stays clean: `sink()` and
+  # `capture.output()` no longer swallow or capture the image.
+  expect_length(streams$output, 0)
+  expect_true(has_escape(streams$messages))
+})
+
+test_that("print_image() draws into R's output stream on request", {
+  streams <- capture_streams(invisible(print_image(
+    half_block_config(output = "stdout"),
+    raw = png_raw(n = 2L)
+  )))
+
+  expect_true(has_escape(streams$output))
+  expect_length(streams$messages, 0)
+})
+
+test_that("print_image() lets the output argument win over the configuration", {
+  streams <- capture_streams(invisible(print_image(
+    half_block_config(output = "stderr"),
+    raw = png_raw(n = 2L),
+    output = "stdout"
+  )))
+
+  expect_true(has_escape(streams$output))
+  expect_length(streams$messages, 0)
+})
+
+test_that("print_image() prints a file to the message stream", {
+  path <- local_png_file(n = 2L)
+
+  streams <- capture_streams(invisible(print_image(
+    half_block_config(),
+    file_path = path
+  )))
+
+  expect_true(has_escape(streams$messages))
 })

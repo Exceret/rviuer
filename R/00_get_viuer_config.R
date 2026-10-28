@@ -29,6 +29,12 @@
 #'   Defaults to `TRUE`.
 #' @param use_sixel Use the Sixel protocol if the terminal supports it.
 #'   Defaults to `TRUE`.
+#' @param output The R console stream the image is written to, one of
+#'   `"stderr"` or `"stdout"`. Defaults to `"stderr"`, so that the picture goes
+#'   to R's message stream: `capture.output()` and `sink()` keep it untouched,
+#'   while `capture.output(type = "message")` and `sink(type = "message")` can
+#'   capture or silence it. This is the same convention as the cli package. Use
+#'   `"stdout"` to draw into R's ordinary output stream instead.
 #'
 #' @return A list of the configuration options.
 #' @examples
@@ -47,7 +53,8 @@ get_viuer_config <- function(
   truecolor = TRUE,
   use_kitty = TRUE,
   use_iterm = TRUE,
-  use_sixel = TRUE
+  use_sixel = TRUE,
+  output = c("stderr", "stdout")
 ) {
   rlang::check_bool(transparent)
   rlang::check_bool(premultiplied_alpha)
@@ -57,6 +64,7 @@ get_viuer_config <- function(
   rlang::check_bool(use_kitty)
   rlang::check_bool(use_iterm)
   rlang::check_bool(use_sixel)
+  output <- rlang::arg_match0(output, c("stderr", "stdout"))
 
   rlang::check_number_whole(x)
   rlang::check_number_whole(y)
@@ -79,6 +87,7 @@ get_viuer_config <- function(
     truecolor = truecolor,
     use_kitty = use_kitty,
     use_iterm = use_iterm,
-    use_sixel = use_sixel
+    use_sixel = use_sixel,
+    output = output
   )
 }

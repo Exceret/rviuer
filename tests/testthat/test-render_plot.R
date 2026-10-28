@@ -94,8 +94,26 @@ test_that("render_plot() returns invisibly", {
 
 test_that("render_plot() prints a real image", {
   path <- local_png_file(n = 2L)
-  config <- get_viuer_config(width = 1L, height = 1L)
+  config <- half_block_config()
 
-  expect_true(render_plot(path, config = config))
-  expect_true(render_plot(png_raw(n = 2L), config = config))
+  streams <- capture_streams(invisible(render_plot(path, config = config)))
+  expect_true(has_escape(streams$messages))
+
+  streams <- capture_streams(invisible(render_plot(png_raw(n = 2L), config)))
+  expect_true(has_escape(streams$messages))
+})
+
+test_that("render_plot() draws into the configured console stream", {
+  bytes <- png_raw(n = 2L)
+
+  streams <- capture_streams(invisible(render_plot(
+    bytes,
+    half_block_config(output = "stdout")
+  )))
+  expect_true(has_escape(streams$output))
+  expect_length(streams$messages, 0)
+
+  streams <- capture_streams(invisible(render_plot(bytes, half_block_config())))
+  expect_true(has_escape(streams$messages))
+  expect_length(streams$output, 0)
 })

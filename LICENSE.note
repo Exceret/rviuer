@@ -1,5 +1,10 @@
 The binary compiled from the source code of this package contains the following Rust crates:
 
+One of them is not a dependency but a vendored source copy: `viuer` 0.11.0 is
+bundled under `src/rust/src/viuer/`, with its MIT licence in
+`src/rust/src/viuer/LICENSE-MIT`. It was modified for this package; the list of
+changes is at the top of `src/rust/src/viuer/mod.rs`.
+
 
 -------------------------------------------------------------
 

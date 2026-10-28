@@ -70,3 +70,27 @@
       Error in `print_image()`:
       ! `transparent` must be TRUE or FALSE
 
+# print_image() validates the output channel
+
+    Code
+      print_image(half_block_config(), raw = png_raw(2L), output = "console")
+    Condition
+      Error in `print_image()`:
+      ! `output` must be "stderr" or "stdout", not "console"
+
+---
+
+    Code
+      print_image(list(output = "console"), raw = png_raw(2L))
+    Condition
+      Error in `print_image()`:
+      ! `output` must be "stderr" or "stdout", not "console"
+
+---
+
+    Code
+      print_image(list(output = TRUE), raw = png_raw(2L))
+    Condition
+      Error in `print_image()`:
+      ! `output` must be a single string
+

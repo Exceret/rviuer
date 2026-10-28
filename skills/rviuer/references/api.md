@@ -15,7 +15,8 @@ S3 generic that draws an image in the terminal.
 | `render_plot.default` | anything else | aborts listing the available classes |
 
 - Returns `TRUE`, invisibly.
-- `...` is forwarded to the Rust entry point (`print_image()`), not to `viuer` directly; the package validates the two source arguments, so only pass `config`.
+- Images go to R's **message stream (stderr)** by default, the way `cli` writes its messages: `sink()` and `capture.output()` leave them alone, `sink(type = "message")` / `capture.output(type = "message")` capture them. `get_viuer_config(output = "stdout")` draws on the ordinary output stream instead.
+- `...` is forwarded to the Rust entry point (`print_image()`), not to `viuer` directly; the package validates the two source arguments, so besides `config` only `output` is useful there.
 - File paths are decoded with `image`'s guessed format; `raw` bytes are always decoded as PNG.
 
 ```r
@@ -48,21 +49,24 @@ r <- capture_plot({
 }, width = 8, height = 3)
 ```
 
-### **internal** `print_image(config, file_path = NULL, raw = NULL)`
+### **internal** `print_image(config, file_path = NULL, raw = NULL, output = NULL)`
 
 Rust entry point (`.Call`). Exactly one of `file_path` / `raw` must be supplied, otherwise `supply either file_path or raw` / `supply only one of file_path and raw`. When the config has no `width`/`height`, it reads the image dimensions (`image::ImageReader`, header only for files), queries the terminal size and fills in the fitted cell size, warning when the height had to be capped. Prefer `render_plot()`.
 
+`output` is the R console channel: `"stderr"` (R's message stream) or `"stdout"` (R's output stream). `NULL` falls back to the `output` element of `config`, and to `"stderr"` when that is absent too, so a configuration list built by `get_viuer_config()` is enough. Any other value aborts with `` `output` must be "stderr" or "stdout" ``.
+
 ## Configuration
 
-### `get_viuer_config(transparent = FALSE, premultiplied_alpha = FALSE, absolute_offset = FALSE, x = 0L, y = 0L, restore_cursor = FALSE, width = NULL, height = NULL, truecolor = TRUE, use_kitty = TRUE, use_iterm = TRUE, use_sixel = TRUE)`
+### `get_viuer_config(transparent = FALSE, premultiplied_alpha = FALSE, absolute_offset = FALSE, x = 0L, y = 0L, restore_cursor = FALSE, width = NULL, height = NULL, truecolor = TRUE, use_kitty = TRUE, use_iterm = TRUE, use_sixel = TRUE, output = c("stderr", "stdout"))`
 
-Returns a named list (also the default of `render_plot(config = ...)`) with those twelve elements. All logicals go through `rlang::check_bool()`; `x`, `y`, `width`, `height` go through `rlang::check_number_whole()`.
+Returns a named list (also the default of `render_plot(config = ...)`) with those thirteen elements. All logicals go through `rlang::check_bool()`; `x`, `y`, `width`, `height` go through `rlang::check_number_whole()`; `output` goes through `rlang::arg_match0()`.
 
 - `x` range checked again in Rust: `[0, 65535]`.
 - `y` range checked again in Rust: `[-32768, 32767]`.
 - `width`/`height` are terminal **cells**, `NULL` means "fit the terminal".
-- Missing or `NULL` fields fall back to `viuer::Config::default()` on the Rust side, so a partial list is valid (but build it with this function).
-- `use_sixel` is only forwarded when the Rust crate is compiled with the `sixel` feature; the default build is not, so it is silently ignored.
+- Missing or `NULL` fields fall back to the vendored `viuer::Config::default()` on the Rust side, so a partial list is valid (but build it with this function).
+- `output = "stderr"` (the default) draws on R's message stream, `output = "stdout"` on R's output stream.
+- `use_sixel` is only forwarded when the crate is compiled with the `sixel` feature; the default build is not, so it is silently ignored.
 
 ```r
 str(get_viuer_config(), max.level = 1)
@@ -127,9 +131,9 @@ Validates five strings matching `^[01]{3}$`; returns `TRUE` invisibly, otherwise
 
 | Function | Returns |
 | --- | --- |
-| `rviuer:::terminal_size()` | list `width`, `height` in cells as reported by the terminal (`TIOCGWINSZ`); falls back to `80 x 24` when stdout is not a terminal |
+| `rviuer:::terminal_size()` | list `width`, `height` in cells as reported by the terminal (`TIOCGWINSZ`); falls back to `80 x 24` when there is no terminal |
 | `rviuer:::fit_terminal_cells(img_width, img_height, term_width, term_height)` | integer vector `c(columns, rows)` the image would occupy; warns when the height is capped |
-| `rviuer:::print_image(config, file_path, raw)` | the low-level Rust call behind `render_plot()` |
+| `rviuer:::print_image(config, file_path, raw, output)` | the low-level Rust call behind `render_plot()` |
 
 ```r
 rviuer:::terminal_size()

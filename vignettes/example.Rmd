@@ -28,20 +28,13 @@ knitr::opts_chunk$set(
   comment = "#>",
   out.width = "100%"
 )
-options(cli.progress_show_after = 0)
-options(cli.progress_clear = FALSE)
-options(cli.progress_format_iterator = NULL)
-options(cli.progress_format_iterator_nototal = NULL)
-options(cli.progress_format_tasks = NULL)
-options(cli.progress_format_tasks_nototal = NULL)
-options(cli.progress_format_download = NULL)
-options(cli.progress_format_download_nototal = NULL)
 ```
 
 You can use `capture_plot` to capture the plot (In theory, any format works, including `ggplot2`) in R session.
 
 ```{r}
 #| label: "example_capture"
+#| error: TRUE
 library(rviuer)
 draw_pixels("rviuer") |>
   capture_plot(width = 40, height = 10) |>
@@ -52,7 +45,8 @@ You can also use file path directly.
 
 ```{r}
 #| label: "example_file_path"
-url <- "https://cdn.jsdelivr.net/gh/tidyverse/dplyr@main/man/figures/logo.pngg"
+#| error: TRUE
+url <- "https://cdn.jsdelivr.net/gh/tidyverse/dplyr@main/man/figures/logo.png"
 tmp <- tempdir()
 dest <- file.path(tmp, "logo.png")
 try({

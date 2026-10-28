@@ -4,7 +4,18 @@
 \alias{print_image}
 \title{Print an image to the console.}
 \usage{
-print_image(config, file_path = NULL, raw = NULL)
+print_image(config, file_path = NULL, raw = NULL, output = NULL)
+}
+\arguments{
+\item{config}{The printing options, as a named list. The \code{output} element
+set by \code{\link[=get_viuer_config]{get_viuer_config()}} is honoured when \code{output} is \code{NULL}.}
+
+\item{file_path, raw}{The image source; exactly one of them.}
+
+\item{output}{The R console channel to write to: \code{"stderr"} (R's message
+stream, the default when neither this argument nor the \code{output} element of
+\code{config} is given) or \code{"stdout"} (R's output stream). Writing to stderr
+keeps R's ordinary output clean, the way the cli package does.}
 }
 \description{
 This is the R-facing entry point: \code{file_path} arrives as an \code{Rstr} and \code{raw}

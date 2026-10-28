@@ -59,3 +59,4 @@ src/Makevars.win
 src/rust/.cargo
 inst/doc
 vignettes/.nfs0000001e0195b9a80001b0d3
+.codebuddy/

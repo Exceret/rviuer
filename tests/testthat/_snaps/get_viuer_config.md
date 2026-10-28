@@ -134,3 +134,28 @@
       Error in `get_viuer_config()`:
       ! `height` must be a whole number, not the string "20".
 
+# get_viuer_config() checks the output channel
+
+    Code
+      get_viuer_config(output = "console")
+    Condition
+      Error in `get_viuer_config()`:
+      ! `output` must be one of "stderr" or "stdout", not "console".
+
+---
+
+    Code
+      get_viuer_config(output = "STDERR")
+    Condition
+      Error in `get_viuer_config()`:
+      ! `output` must be one of "stderr" or "stdout", not "STDERR".
+      i Did you mean "stderr"?
+
+---
+
+    Code
+      get_viuer_config(output = NULL)
+    Condition
+      Error in `get_viuer_config()`:
+      ! `output` must be a string or character vector.
+

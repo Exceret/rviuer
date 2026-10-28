@@ -1,8 +1,14 @@
 Package: rviuer
 Title: R Binding to 'viuer'
 Version: 0.1.0
-Authors@R: 
-    person("Yuxi", "Yang", , "15364051195@163.com", role = c("aut", "cre"))
+Authors@R: c(
+    person("Yuxi", "Yang", , "15364051195@163.com", role = c("aut", "cre")),
+    person(
+      "Atanas", "Yankov",
+      role = "ctb",
+      comment = "Author of the vendored viuer sources"
+    )
+  )
 Description: Draws images, including plots captured straight from R, directly in
     the terminal. It uses the iTerm, Kitty or Sixel graphics protocols when the
     terminal supports them, and falls back to coloured half-blocks otherwise.
@@ -26,6 +32,6 @@ BugReports: https://github.com/Exceret/rviuer/issues
 Depends: 
     R (>= 4.2)
 Config/rextendr/version: 0.5.0
-SystemRequirements: Cargo (Rust's package manager), rustc >= 1.65.0, xz
+SystemRequirements: Cargo (Rust's package manager), rustc >= 1.80.0, xz
 Config/roxygen2/version: 8.1.0
 VignetteBuilder: knitr

@@ -30,5 +30,10 @@ Authors:
   \item Yuxi Yang \email{15364051195@163.com}
 }
 
+Other contributors:
+\itemize{
+  \item Atanas Yankov (Author of the vendored viuer sources) [contributor]
+}
+
 }
 \keyword{internal}

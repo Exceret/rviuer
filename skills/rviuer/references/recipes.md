@@ -110,14 +110,22 @@ draw_pixels("C#", font = font, palette = c("tomato", "steelblue"))
 Half-block escape sequences end up in the log stream, so guard rendering:
 
 ```r
-if (interactive() && isatty(stdout())) {
+if (interactive() && isatty(stderr())) {
   capture_plot(p) |> render_plot()
 } else {
   ggplot2::ggsave("plot.png", p, width = 8, height = 5, dpi = 150)
 }
 ```
 
-`rviuer:::terminal_size()` returns `80 x 24` when stdout is not a terminal, so an apparently "wrong" size is usually a sign that no TTY was attached.
+Images are drawn on R's message stream (stderr), so `capture.output()` stays empty and `sink(type = "message")` is what silences or captures a render:
+
+```r
+suppressMessages(render_plot("plot.png"))                       # nothing drawn
+lines <- capture.output(render_plot("plot.png"), type = "message")
+render_plot("plot.png", config = get_viuer_config(output = "stdout"))  # old behaviour
+```
+
+`rviuer:::terminal_size()` returns `80 x 24` when there is no terminal, so an apparently "wrong" size is usually a sign that no TTY was attached.
 
 ## 10. Diagnose a bad result
 
@@ -125,7 +133,7 @@ if (interactive() && isatty(stdout())) {
 rviuer:::terminal_size()                     # what the package thinks the terminal is
 rviuer:::fit_terminal_cells(1600, 900, 80, 24)  # c(79, 22): cells for a 16:9 image
 Sys.getenv(c("TERM", "TERM_PROGRAM", "LC_TERMINAL", "COLORTERM", "KITTY_WINDOW_ID"))
-isatty(stdout())
+isatty(stderr())
 ```
 
 Symptom → likely cause:

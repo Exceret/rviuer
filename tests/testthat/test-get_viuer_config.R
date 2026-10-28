@@ -16,7 +16,8 @@ test_that("get_viuer_config() returns the documented defaults", {
       "truecolor",
       "use_kitty",
       "use_iterm",
-      "use_sixel"
+      "use_sixel",
+      "output"
     )
   )
   expect_false(config$transparent)
@@ -31,6 +32,7 @@ test_that("get_viuer_config() returns the documented defaults", {
   expect_true(config$use_kitty)
   expect_true(config$use_iterm)
   expect_true(config$use_sixel)
+  expect_identical(config$output, "stderr")
 })
 
 test_that("get_viuer_config() keeps the values it is given", {
@@ -46,7 +48,8 @@ test_that("get_viuer_config() keeps the values it is given", {
     truecolor = FALSE,
     use_kitty = FALSE,
     use_iterm = FALSE,
-    use_sixel = FALSE
+    use_sixel = FALSE,
+    output = "stdout"
   )
 
   expect_true(config$transparent)
@@ -61,6 +64,7 @@ test_that("get_viuer_config() keeps the values it is given", {
   expect_false(config$use_kitty)
   expect_false(config$use_iterm)
   expect_false(config$use_sixel)
+  expect_identical(config$output, "stdout")
 })
 
 test_that("get_viuer_config() accepts whole doubles", {
@@ -94,4 +98,10 @@ test_that("get_viuer_config() checks dimensions", {
   expect_snapshot(error = TRUE, get_viuer_config(width = "40"))
   expect_snapshot(error = TRUE, get_viuer_config(height = 1.5))
   expect_snapshot(error = TRUE, get_viuer_config(height = "20"))
+})
+
+test_that("get_viuer_config() checks the output channel", {
+  expect_snapshot(error = TRUE, get_viuer_config(output = "console"))
+  expect_snapshot(error = TRUE, get_viuer_config(output = "STDERR"))
+  expect_snapshot(error = TRUE, get_viuer_config(output = NULL))
 })

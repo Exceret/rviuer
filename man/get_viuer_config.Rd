@@ -16,7 +16,8 @@ get_viuer_config(
   truecolor = TRUE,
   use_kitty = TRUE,
   use_iterm = TRUE,
-  use_sixel = TRUE
+  use_sixel = TRUE,
+  output = c("stderr", "stdout")
 )
 }
 \arguments{
@@ -59,6 +60,13 @@ Defaults to \code{TRUE}.}
 
 \item{use_sixel}{Use the Sixel protocol if the terminal supports it.
 Defaults to \code{TRUE}.}
+
+\item{output}{The R console stream the image is written to, one of
+\code{"stderr"} or \code{"stdout"}. Defaults to \code{"stderr"}, so that the picture goes
+to R's message stream: \code{capture.output()} and \code{sink()} keep it untouched,
+while \code{capture.output(type = "message")} and \code{sink(type = "message")} can
+capture or silence it. This is the same convention as the cli package. Use
+\code{"stdout"} to draw into R's ordinary output stream instead.}
 }
 \value{
 A list of the configuration options.

@@ -11,7 +11,10 @@
 #' * `raw`: a PNG-encoded image, such as the value returned by
 #'   [capture_plot()]. The bytes are always decoded as PNG.
 #' @param config A configuration list, as built by [get_viuer_config()]. It
-#'   controls transparency, offsets, size and the protocols that are enabled.
+#'   controls transparency, offsets, size, the protocols that are enabled and
+#'   the console stream the image is written to. Images go to R's message
+#'   stream (stderr) by default, so `capture.output()` does not swallow them and
+#'   `sink(type = "message")` can.
 #' @param ... Further arguments passed on to [print_image()].
 #'
 #' @return `TRUE` if the image is successfully printed.`

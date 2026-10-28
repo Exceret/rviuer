@@ -1,9 +1,10 @@
 //
 use crate::msg::alert_warning;
+use crate::output::{Output, RConsoleWriter};
+use crate::viuer::Config;
 use extendr_api::{
     extendr, extendr_module, Error, Integers, List, Nullable, Raw, Result, Robj, Rstr, Rtype, Types,
 };
-use viuer::Config;
 
 enum ReceiverType {
     /// Path of the image file to print.
@@ -20,6 +21,7 @@ enum ReceiverType {
 struct Receiver {
     config: Config,
     receiver_type: ReceiverType,
+    output: Output,
 }
 
 /// Print an image to the console.
@@ -36,23 +38,35 @@ struct Receiver {
 /// them with `= NULL`, so callers can omit the one they do not use instead of
 /// passing `NULL` explicitly.
 ///
+/// @param config The printing options, as a named list. The `output` element
+///   set by [get_viuer_config()] is honoured when `output` is `NULL`.
+/// @param file_path,raw The image source; exactly one of them.
+/// @param output The R console channel to write to: `"stderr"` (R's message
+///   stream, the default when neither this argument nor the `output` element of
+///   `config` is given) or `"stdout"` (R's output stream). Writing to stderr
+///   keeps R's ordinary output clean, the way the cli package does.
+///
 /// @keywords internal
 #[extendr]
 fn print_image(
     config: List,
     #[extendr(default = "NULL")] file_path: Nullable<Rstr>,
     #[extendr(default = "NULL")] raw: Nullable<Raw>,
+    #[extendr(default = "NULL")] output: Nullable<Rstr>,
 ) -> Result<()> {
-    Receiver::new(config, receiver_type_from_r(file_path, raw)?)?.print()
+    // Resolve the channel first: `config` is moved into the receiver.
+    let output = output_from_r(&config, output)?;
+
+    Receiver::new(config, receiver_type_from_r(file_path, raw)?, output)?.print()
 }
 
 /// Size of the terminal, in cells.
 ///
 /// Returns `width` (columns) and `height` (rows) as reported by the terminal
-/// itself, i.e. through `TIOCGWINSZ` on the file descriptor the image is
-/// written to. When the output is not a terminal (a pipe, `Rscript` with
-/// redirected output, ...) the size cannot be queried and viuer's fallback of
-/// 80 x 24 is returned.
+/// itself, i.e. through `TIOCGWINSZ` on the controlling terminal, which is also
+/// where the image is written to (R's stderr). When there is no terminal (a
+/// pipe, `Rscript` with redirected output, ...) the size cannot be queried and
+/// the fallback of 80 x 24 is returned.
 ///
 /// This is the same value [`fit_terminal_cells`] uses internally, so it is
 /// useful to check why an image came out at a given size.
@@ -62,7 +76,7 @@ fn print_image(
 /// @keywords internal
 #[extendr]
 fn terminal_size() -> Result<List> {
-    let (width, height) = viuer::terminal_size();
+    let (width, height) = crate::viuer::terminal_size();
 
     List::from_names_and_values(
         vec!["width", "height"],
@@ -120,10 +134,11 @@ impl Receiver {
     /// `config` is the named list of printing options (`transparent`, `x`, `y`,
     /// `width`, `truecolor`, ...). An option that is missing or `NULL` keeps the
     /// corresponding [`Config::default`] value.
-    fn new(config: List, receiver_type: ReceiverType) -> Result<Self> {
+    fn new(config: List, receiver_type: ReceiverType, output: Output) -> Result<Self> {
         Ok(Self {
             config: config_from_list(&config)?,
             receiver_type,
+            output,
         })
     }
 
@@ -139,37 +154,50 @@ impl Receiver {
         let Self {
             mut config,
             receiver_type,
+            output,
         } = self;
 
+        // Every byte of the drawing goes through this writer, so the image ends
+        // up in R's console channel instead of the process stdout.
+        let mut writer = RConsoleWriter::new(output);
+
         match receiver_type {
-            ReceiverType::FromRaw(raw) => Self::print_from_raw(&mut config, raw.as_slice()),
-            ReceiverType::FromFilePath(file_path) => Self::print_from_str(&mut config, &file_path),
+            ReceiverType::FromRaw(raw) => {
+                Self::print_from_raw(&mut config, raw.as_slice(), &mut writer)
+            }
+            ReceiverType::FromFilePath(file_path) => {
+                Self::print_from_str(&mut config, &file_path, &mut writer)
+            }
         }
     }
 
     /// Print a PNG-encoded byte buffer.
-    fn print_from_raw(config: &mut Config, raw: &[u8]) -> Result<()> {
+    fn print_from_raw(config: &mut Config, raw: &[u8], writer: &mut RConsoleWriter) -> Result<()> {
         let image = image::load_from_memory_with_format(raw, image::ImageFormat::Png)
             .map_err(|err| Error::Other(format!("Image decoding failed: {err}")))?;
 
         fit_config_to_terminal(config, image.width(), image.height());
 
-        viuer::print(&image, config)
+        crate::viuer::print_to(&image, config, writer)
             .map_err(|err| Error::Other(format!("Image printing failed: {err}")))?;
 
         Ok(())
     }
 
     /// Print the image stored at `file_path`.
-    fn print_from_str(config: &mut Config, file_path: &str) -> Result<()> {
+    fn print_from_str(
+        config: &mut Config,
+        file_path: &str,
+        writer: &mut RConsoleWriter,
+    ) -> Result<()> {
         // Only the header is read here, so the size can be fitted before the
-        // image itself is decoded (by `viuer::print_from_file`, which keeps
+        // image itself is decoded (by `viuer::print_from_file_to`, which keeps
         // its own error messages).
         if let Some((width, height)) = image_dimensions(file_path) {
             fit_config_to_terminal(config, width, height);
         }
 
-        viuer::print_from_file(file_path, config)
+        crate::viuer::print_from_file_to(file_path, config, writer)
             .map_err(|err| Error::Other(format!("Image printing failed: {err}")))?;
 
         Ok(())
@@ -202,11 +230,11 @@ fn fit_cells(img_width: u32, img_height: u32, term_width: u32, term_height: u32)
     let max_height = term_height.saturating_sub(1).max(1);
 
     if img_width <= max_width && img_height <= 2 * max_height {
-        // `div_ceil` is only available from Rust 1.73, and the crate supports
-        // 1.65, so the ceiling division is spelled out.
         return Cells {
             width: img_width,
-            height: (img_height + 1) / 2,
+            // two image rows share one cell, and a trailing odd row still needs
+            // a cell of its own
+            height: img_height.div_ceil(2),
             height_capped: false,
         };
     }
@@ -270,7 +298,7 @@ fn fit_config_to_terminal(config: &mut Config, img_width: u32, img_height: u32) 
         return;
     }
 
-    let (term_width, term_height) = viuer::terminal_size();
+    let (term_width, term_height) = crate::viuer::terminal_size();
     let cells = fit_cells(
         img_width,
         img_height,
@@ -325,10 +353,10 @@ fn config_from_list(config: &List) -> Result<Config> {
         truecolor: field_logical(config, "truecolor", default.truecolor)?,
         use_kitty: field_logical(config, "use_kitty", default.use_kitty)?,
         use_iterm: field_logical(config, "use_iterm", default.use_iterm)?,
-        // `Config::use_sixel` only exists when the `sixel` feature is enabled,
-        // so the option is ignored otherwise and its default (`true`) is
-        // spelled out instead of read from `default`.
-        #[cfg(feature = "sixel")]
+        // `Config::use_sixel` only exists when one of the sixel features is
+        // enabled, so the option is ignored otherwise and its default (`true`)
+        // is spelled out instead of read from `default`.
+        #[cfg(any(feature = "sixel", feature = "icy_sixel"))]
         use_sixel: field_logical(config, "use_sixel", true)?,
     })
 }
@@ -351,6 +379,35 @@ fn field_logical(config: &List, name: &str, default: bool) -> Result<bool> {
             .ok_or_else(|| Error::Other(format!("`{name}` must be TRUE or FALSE"))),
         None => Ok(default),
     }
+}
+
+/// Resolve the R console channel the image is written to.
+///
+/// The `output` argument of [`print_image`] wins; when it is `NULL` the
+/// `output` element of the configuration is used, so that a caller who only
+/// holds a configuration list still gets the channel it asked for. Without
+/// either, the image goes to stderr.
+fn output_from_r(config: &List, output: Nullable<Rstr>) -> Result<Output> {
+    match output {
+        Nullable::NotNull(output) => Output::parse(output.as_ref()),
+        Nullable::Null => match field_string(config, "output")? {
+            Some(value) => Output::parse(&value),
+            None => Ok(Output::Stderr),
+        },
+    }
+}
+
+/// Read a single-string option, falling back to `None` when it is absent.
+fn field_string(config: &List, name: &str) -> Result<Option<String>> {
+    let value = match list_field(config, name) {
+        Some(value) => value,
+        None => return Ok(None),
+    };
+
+    let value = <&str>::try_from(&value)
+        .map_err(|_| Error::Other(format!("`{name}` must be a single string")))?;
+
+    Ok(Some(value.to_string()))
 }
 
 /// Read a whole-number option, accepting both integer and double R values.

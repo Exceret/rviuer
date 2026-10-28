@@ -114,10 +114,6 @@ render_plot(
 `ggplot` object, so it can be extended or saved like any other plot.
 
 ``` r
-draw_pixels("rviuer")
-draw_pixels("rviuer", color_by = "letter")
-draw_pixels("hello\nworld", fill = "tomato", border = NA)
-
 draw_pixels("rviuer") |>
   capture_plot(width = 6, height = 2) |>
   render_plot()
@@ -143,8 +139,14 @@ The graphics protocol is chosen automatically: iTerm, Kitty or Sixel
 when the terminal supports it, coloured half-blocks otherwise. A real
 terminal is required — RStudio, Positron and other IDE consoles,
 `Rscript` with redirected output and CI logs only receive the fallback’s
-escape sequences. Use `isatty(stdout())` (or `interactive()`) to guard
+escape sequences. Use `isatty(stderr())` (or `interactive()`) to guard
 rendering code in scripts.
+
+Images are drawn on R’s message stream (stderr), the way the cli package
+writes its messages: `sink()` and `capture.output()` leave them alone,
+while `sink(type = "message")` and `capture.output(type = "message")`
+capture or silence them. Pass `output = "stdout"` to
+`get_viuer_config()` to draw on the ordinary output stream instead.
 
 ## Agent skill
 
@@ -173,6 +175,19 @@ Add `--list` to only show the skills a repository offers, `--global` to
 install at user level instead of project level, and `--copy` to copy the
 files rather than symlink them into the agent directory.
 
-## Related tools
+## Acknowledgements
 
-MIT @ [viuer](https://github.com/atanunq/viuer)
+This project is derived from [viuer](https://github.com/atanunq/viuer)
+by [@atanunq](https://github.com/atanunq). Many thanks to the original
+author and all contributors for their open-source work.
+
+- viuer is released under the [MIT
+  License](inst/vendor/viuer/LICENSE-MIT). The original copyright notice
+  and full license text are preserved unchanged in `LICENSE-MIT`; please
+  do not remove it.
+- The parts modified are released under the MIT License. See
+  [LICENSE](LICENSE) for details.
+- This project is not affiliated with or endorsed by the original viuer
+  author, who is not responsible for the modifications made here.
+- This software is provided “as is”, without warranty of any kind,
+  express or implied. Use it at your own risk.
